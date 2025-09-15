@@ -1,0 +1,23 @@
+# Prevent PHP output buffering for API endpoints
+<IfModule mod_headers.c>
+    <Files "*.json">
+        Header always set Content-Type "application/json; charset=UTF-8"
+        Header always set Cache-Control "public, max-age=3600"
+    </Files>
+</IfModule>
+
+# Enable CORS for API
+<IfModule mod_headers.c>
+    <LocationMatch "/api/">
+        Header always set Access-Control-Allow-Origin "*"
+        Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    </LocationMatch>
+</IfModule>
+
+# Compress JSON files
+<IfModule mod_deflate.c>
+    <Files "*.json">
+        SetOutputFilter DEFLATE
+    </Files>
+</IfModule>
