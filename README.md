@@ -59,7 +59,7 @@ Website resmi Dinas Pekerjaan Umum dan Penataan Ruang (PUPR) Kabupaten Katingan.
 
 1. Clone repository
 ```bash
-git clone https://github.com/USERNAME/dinas-pupr-katingan-web.git
+git clone https://github.com/budiaat/dinas-pupr-katingan-web.git
 cd dinas-pupr-katingan-web
 ```
 
