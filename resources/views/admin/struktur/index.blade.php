@@ -11,9 +11,6 @@
                     <a href="{{ route('admin.struktur.peta') }}" class="btn btn-outline-info">
                         <i class="bi bi-diagram-3 me-2"></i>Peta Jabatan
                     </a>
-                    <a href="{{ route('admin.struktur.trashed') }}" class="btn btn-outline-secondary">
-                        <i class="bi bi-trash me-2"></i>Data Terhapus
-                    </a>
                     <a href="{{ route('admin.struktur.create') }}" class="btn btn-primary">
                         <i class="bi bi-plus-circle me-2"></i>Tambah Struktur
                     </a>

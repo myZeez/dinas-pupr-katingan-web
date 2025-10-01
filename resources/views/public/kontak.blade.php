@@ -1,10 +1,16 @@
 @extends('public.layouts.app')
 
-@section('title', 'Kontak - Dinas PUPR Katingan')
+@php
+    $profil = \App\Models\Profil::first();
+@endphp
+
+@section('title')
+    Kontak - {{ $profil->nama_instansi ?? 'Dinas PUPR Katingan' }}
+@endsection
 
 @push('meta')
     <meta name="description"
-        content="Hubungi Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Katingan untuk informasi layanan, pertanyaan, atau saran.">
+        content="Hubungi {{ $profil->nama_instansi ?? 'Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Katingan' }} untuk informasi layanan, pertanyaan, atau saran.">
     <meta name="keywords" content="kontak, PUPR, Katingan, alamat, telepon, email, layanan publik">
 @endpush
 
@@ -17,8 +23,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-8" data-aos="fade-right">
                     <h1 class="display-5 fw-bold mb-2 mb-md-3">Hubungi Kami</h1>
-                    <p class="lead mb-0">Sampaikan pertanyaan, saran, atau kebutuhan layanan Anda kepada tim Dinas PUPR
-                        Katingan</p>
+                    <p class="lead mb-0">Sampaikan pertanyaan, saran, atau kebutuhan layanan Anda kepada tim
+                        {{ $profil->nama_instansi ?? 'Dinas PUPR Katingan' }}</p>
                 </div>
                 <div class="col-lg-4 d-none d-lg-block" data-aos="fade-left">
                     <nav aria-label="breadcrumb">
@@ -39,7 +45,8 @@
             <div class="row justify-content-center mb-4 mb-md-5">
                 <div class="col-lg-8 text-center" data-aos="fade-up">
                     <h2 class="section-title mb-2 mb-md-3">Informasi Kontak</h2>
-                    <p class="text-muted">Berikut adalah informasi kontak resmi Dinas PUPR Katingan</p>
+                    <p class="text-muted">Berikut adalah informasi kontak resmi
+                        {{ $profil->nama_instansi ?? 'Dinas PUPR Katingan' }}</p>
                 </div>
             </div>
 
@@ -57,10 +64,7 @@
                                 @if (isset($profil) && $profil->alamat)
                                     {{ $profil->alamat }}
                                 @else
-                                    Jl. Cilik Riwut KM. 2,5<br>
-                                    Kasongan Baru, Katingan Hilir<br>
-                                    Kabupaten Katingan, Kalimantan Tengah<br>
-                                    Kode Pos: 74411
+                                    -
                                 @endif
                             </p>
                         </div>
@@ -95,7 +99,7 @@
                                 <p class="text-muted mb-0">
                                     <a href="https://wa.me/6281234567890?text=Halo%20Dinas%20PUPR%20Katingan"
                                         target="_blank" class="text-success text-decoration-none">
-                                        <i class="bi bi-whatsapp me-1"></i>WhatsApp: +62 812-3456-7890
+                                        <i class="bi bi-whatsapp me-1"></i>WhatsApp: +62 -
                                     </a>
                                 </p>
                             @endif
@@ -121,7 +125,7 @@
                             @else
                                 <p class="text-muted mb-2">
                                     <a href="mailto:info@puprkatingan.go.id" class="text-decoration-none">
-                                        info@puprkatingan.go.id
+                                        -
                                     </a>
                                 </p>
                             @endif
@@ -136,7 +140,7 @@
                             @else
                                 <p class="text-muted mb-0">
                                     <a href="https://puprkatingan.go.id" target="_blank" class="text-decoration-none">
-                                        <i class="bi bi-globe me-1"></i>puprkatingan.go.id
+                                        <i class="bi bi-globe me-1"></i>
                                     </a>
                                 </p>
                             @endif
@@ -255,9 +259,9 @@
                                     <!-- CAPTCHA -->
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            @if (app('App\Services\CaptchaService')->isRequired())
-                                                {!! app('App\Services\CaptchaService')->html() !!}
-                                                @error('g-recaptcha-response')
+                                            @if (app('App\Services\SimpleCaptchaService')->isRequired())
+                                                {!! app('App\Services\SimpleCaptchaService')->generateHtml() !!}
+                                                @error('captcha_answer')
                                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                                 @enderror
                                                 @error('captcha')
@@ -288,7 +292,8 @@
                 <div class="col-lg-8" data-aos="fade-up">
                     <div class="text-center mb-5">
                         <h2 class="section-title">Berikan Ulasan</h2>
-                        <p class="text-muted">Bagikan pengalaman Anda menggunakan layanan Dinas PUPR Katingan</p>
+                        <p class="text-muted">Bagikan pengalaman Anda menggunakan layanan
+                            {{ $profil->nama_instansi ?? 'Dinas PUPR Katingan' }}</p>
                     </div>
 
                     <!-- Success Alert for Review -->
@@ -385,9 +390,9 @@
                                     <!-- CAPTCHA for Review -->
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            @if (app('App\Services\CaptchaService')->isRequired())
-                                                {!! app('App\Services\CaptchaService')->html() !!}
-                                                @error('g-recaptcha-response')
+                                            @if (app('App\Services\SimpleCaptchaService')->isRequired())
+                                                {!! app('App\Services\SimpleCaptchaService')->generateHtml() !!}
+                                                @error('captcha_answer')
                                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                                 @enderror
                                                 @error('captcha')
@@ -617,9 +622,4 @@
             }
         });
     </script>
-
-    <!-- Google reCAPTCHA Script -->
-    @if (app('App\Services\CaptchaService')->isRequired())
-        {!! app('App\Services\CaptchaService')->script() !!}
-    @endif
 @endpush

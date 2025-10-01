@@ -30,8 +30,7 @@ Route::prefix('/')->name('public.')->group(function () {
     // Legacy pages
     Route::get('/struktur', [PublicController::class, 'struktur'])->name('struktur');
     Route::get('/program', [PublicController::class, 'program'])->name('program');
-    Route::get('/layanan', [PublicController::class, 'layanan'])->name('layanan');
-    Route::get('/layanan/{type}', [PublicController::class, 'layananForm'])->name('layanan.form');
+    // Layanan feature removed
 
     // Pengaduan
     Route::post('/pengaduan', [PublicPengaduanController::class, 'store'])->name('pengaduan.store');

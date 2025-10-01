@@ -72,7 +72,7 @@ class Profil extends Model
 
     public function getLogoUrlAttribute()
     {
-        return $this->logo ? asset('storage/' . $this->logo) : asset('img/default-logo.png');
+        return $this->logo ? asset('storage/' . $this->logo) : null;
     }
 
     // Static methods

@@ -62,12 +62,6 @@
                             <i class="bi bi-book me-2"></i>API
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="captcha-tab" data-bs-toggle="tab" data-bs-target="#captcha"
-                            type="button" role="tab">
-                            <i class="bi bi-shield-check me-2"></i>CAPTCHA
-                        </button>
-                    </li>
                 </ul>
             </div>
 
@@ -150,9 +144,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="mail_username" class="form-label">Username Email</label>
-                                        <input type="email" class="form-control" name="mail_username"
-                                            id="mail_username" value="{{ App\Models\Setting::get('mail_username') }}"
-                                            required>
+                                        <input type="email" class="form-control" name="mail_username" id="mail_username"
+                                            value="{{ App\Models\Setting::get('mail_username') }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -603,181 +596,9 @@
                     </div>
                 </div>
 
-                <!-- CAPTCHA Settings Tab -->
-                <div class="tab-pane fade" id="captcha" role="tabpanel">
-                    <div class="card-body">
-                        @if (session('captcha_success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-check-circle-fill me-2" style="font-size: 1.2rem;"></i>
-                                    <div>{{ session('captcha_success') }}</div>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        @endif
-
-                        @if ($errors->has('captcha_error'))
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-exclamation-circle-fill me-2" style="font-size: 1.2rem;"></i>
-                                    <div>{{ $errors->first('captcha_error') }}</div>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        @endif
-
-                        <!-- CAPTCHA Configuration Card -->
-                        <div class="card mb-4"
-                            style="border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);">
-                            <div class="card-header bg-transparent border-0 py-4">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                                        style="width: 50px; height: 50px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                        <i class="bi bi-shield-check text-white" style="font-size: 1.5rem;"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="card-title mb-1" style="color: #1a1d29; font-weight: 600;">Pengaturan
-                                            CAPTCHA</h5>
-                                        <p class="card-subtitle text-muted mb-0" style="font-size: 0.9rem;">Konfigurasi
-                                            sistem anti-spam untuk formulir website</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                <form action="{{ route('admin.settings.captcha.update') }}" method="POST"
-                                    id="captchaForm">
-                                    @csrf
-                                    @method('PUT')
-
-                                    <div class="row">
-                                        <!-- CAPTCHA Enable/Disable -->
-                                        <div class="col-md-12 mb-3">
-                                            <label class="form-label fw-semibold">Status CAPTCHA</label>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" name="captcha_required"
-                                                    id="captcha_required" value="1"
-                                                    {{ App\Models\CaptchaSetting::getValue('captcha_required', false) ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="captcha_required">
-                                                    Aktifkan CAPTCHA pada formulir
-                                                </label>
-                                            </div>
-                                            <small class="text-muted">Mengaktifkan atau menonaktifkan CAPTCHA di semua
-                                                formulir</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <!-- Site Key -->
-                                        <div class="col-md-6 mb-3">
-                                            <label for="nocaptcha_sitekey" class="form-label fw-semibold">Site Key</label>
-                                            <input type="text" class="form-control" name="nocaptcha_sitekey"
-                                                id="nocaptcha_sitekey"
-                                                value="{{ App\Models\CaptchaSetting::getValue('nocaptcha_sitekey') }}"
-                                                placeholder="6LxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxX">
-                                            <small class="text-muted">Public key untuk reCAPTCHA dari Google
-                                                Console</small>
-                                        </div>
-
-                                        <!-- Secret Key -->
-                                        <div class="col-md-6 mb-3">
-                                            <label for="nocaptcha_secret" class="form-label fw-semibold">Secret
-                                                Key</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" name="nocaptcha_secret"
-                                                    id="nocaptcha_secret"
-                                                    value="{{ App\Models\CaptchaSetting::getValue('nocaptcha_secret') }}"
-                                                    placeholder="6LxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxX">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    id="toggleSecretKey">
-                                                    <i class="bi bi-eye" id="toggleSecretIcon"></i>
-                                                </button>
-                                            </div>
-                                            <small class="text-muted">Private key untuk verifikasi reCAPTCHA</small>
-                                        </div>
-                                    </div>
-
-                                    <!-- Action Buttons -->
-                                    <div class="d-flex gap-2 mt-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bi bi-save me-2"></i>Simpan Pengaturan
-                                        </button>
-                                        <button type="button" class="btn btn-outline-success" onclick="testCaptcha()">
-                                            <i class="bi bi-shield-check me-2"></i>Test CAPTCHA
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- CAPTCHA Setup Guide -->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card h-100"
-                                    style="border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                                                style="width: 45px; height: 45px; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);">
-                                                <i class="bi bi-google text-white" style="font-size: 1.2rem;"></i>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1" style="color: #1e40af; font-weight: 600;">Setup Google
-                                                    reCAPTCHA</h6>
-                                                <small class="text-muted">Langkah-langkah konfigurasi</small>
-                                            </div>
-                                        </div>
-                                        <ol class="mb-0" style="font-size: 0.9rem; color: #374151;">
-                                            <li class="mb-2">Kunjungi <a href="https://www.google.com/recaptcha/admin"
-                                                    target="_blank" class="text-decoration-none">Google reCAPTCHA
-                                                    Console</a></li>
-                                            <li class="mb-2">Daftarkan situs web Anda</li>
-                                            <li class="mb-2">Pilih tipe reCAPTCHA (v2 atau v3)</li>
-                                            <li class="mb-2">Tambahkan domain website Anda</li>
-                                            <li class="mb-2">Salin Site Key dan Secret Key</li>
-                                            <li>Masukkan key ke form di samping</li>
-                                        </ol>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card h-100"
-                                    style="border-radius: 16px; border: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                                                style="width: 45px; height: 45px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                                <i class="bi bi-shield-check text-white" style="font-size: 1.2rem;"></i>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-1" style="color: #047857; font-weight: 600;">Status
-                                                    CAPTCHA</h6>
-                                                <small class="text-muted">Informasi konfigurasi saat ini</small>
-                                            </div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <small class="text-muted d-block">Status:</small>
-                                            <span
-                                                class="badge {{ App\Models\CaptchaSetting::getValue('captcha_required', false) ? 'bg-success' : 'bg-secondary' }}">
-                                                {{ App\Models\CaptchaSetting::getValue('captcha_required', false) ? 'Aktif' : 'Nonaktif' }}
-                                            </span>
-                                        </div>
-                                        <div class="mb-2">
-                                            <small class="text-muted d-block">Site Key:</small>
-                                            <code
-                                                style="font-size: 0.75rem; background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 4px;">
-                                                {{ App\Models\CaptchaSetting::getValue('nocaptcha_sitekey') ? Str::mask(App\Models\CaptchaSetting::getValue('nocaptcha_sitekey'), '*', 10, -10) : 'Belum diset' }}
-                                            </code>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Test Mail Modal -->

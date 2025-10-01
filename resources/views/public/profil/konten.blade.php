@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="col-lg-4 text-center" data-aos="fade-left">
-                <div class="bg-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                <div class="bg-white bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto"
                      style="width: 200px; height: 200px;">
                     <i class="fas fa-camera fa-5x text-white"></i>
                 </div>
@@ -68,7 +68,7 @@
 <section class="py-5">
     <div class="container">
         <div class="tab-content" id="mediaTabsContent">
-            
+
             <!-- Galeri Tab -->
             <div class="tab-pane fade show active" id="galeri" role="tabpanel">
                 @if($carousel->count() > 0)
@@ -78,17 +78,17 @@
                             <p class="text-muted">Dokumentasi visual berbagai kegiatan dan pencapaian</p>
                         </div>
                     </div>
-                    
+
                     <div class="row g-4">
                         @foreach($carousel as $item)
                             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                                 <div class="card border-0 shadow gallery-card">
                                     <div class="position-relative overflow-hidden">
-                                        <img src="{{ $item->media_url }}" 
-                                             class="card-img-top gallery-img" 
-                                             style="height: 250px; object-fit: cover;" 
-                                             data-bs-toggle="modal" 
-                                             data-bs-target="#galleryModal" 
+                                        <img src="{{ $item->media_url }}"
+                                             class="card-img-top gallery-img"
+                                             style="height: 250px; object-fit: cover;"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#galleryModal"
                                              data-img="{{ $item->media_url }}"
                                              data-title="{{ $item->judul }}"
                                              data-desc="{{ $item->deskripsi }}">
@@ -128,7 +128,7 @@
                             <p class="text-muted">Koleksi video dokumentasi kegiatan dan pencapaian</p>
                         </div>
                     </div>
-                    
+
                     <div class="row g-4">
                         @foreach($videos as $video)
                             <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
@@ -143,17 +143,17 @@
                                                     $videoId = $matches[1] ?? '';
                                                 }
                                             @endphp
-                                            
+
                                             @if($videoId)
                                                 <div class="ratio ratio-16x9">
-                                                    <iframe src="https://www.youtube.com/embed/{{ $videoId }}" 
-                                                            title="{{ $video->judul }}" 
+                                                    <iframe src="https://www.youtube.com/embed/{{ $videoId }}"
+                                                            title="{{ $video->judul }}"
                                                             allowfullscreen></iframe>
                                                 </div>
                                             @else
                                                 <div class="ratio ratio-16x9">
-                                                    <iframe src="{{ $video->url }}" 
-                                                            title="{{ $video->judul }}" 
+                                                    <iframe src="{{ $video->url }}"
+                                                            title="{{ $video->judul }}"
                                                             allowfullscreen></iframe>
                                                 </div>
                                             @endif
@@ -204,19 +204,19 @@
                             <p class="text-muted">Partner strategis dalam pembangunan infrastruktur</p>
                         </div>
                     </div>
-                    
+
                     <div class="row g-4">
                         @foreach($mitra as $partner)
                             <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
                                 <div class="card border-0 shadow h-100 mitra-card">
                                     <div class="card-body text-center p-4">
                                         @if($partner->media)
-                                            <img src="{{ $partner->media_url }}" 
-                                                 class="mb-3" 
-                                                 style="max-width: 120px; max-height: 80px; object-fit: contain;" 
+                                            <img src="{{ $partner->media_url }}"
+                                                 class="mb-3"
+                                                 style="max-width: 120px; max-height: 80px; object-fit: contain;"
                                                  alt="{{ $partner->judul }}">
                                         @else
-                                            <div class="bg-primary text-white rounded d-flex align-items-center justify-content-center mb-3 mx-auto" 
+                                            <div class="bg-primary text-white rounded d-flex align-items-center justify-content-center mb-3 mx-auto"
                                                  style="width: 80px; height: 80px;">
                                                 <i class="fas fa-handshake fa-2x"></i>
                                             </div>
@@ -253,7 +253,7 @@
                             <p class="text-muted">Dokumen dan file penting untuk diunduh</p>
                         </div>
                     </div>
-                    
+
                     <div class="row g-3">
                         @foreach($files as $file)
                             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
@@ -292,14 +292,14 @@
                                             </div>
                                             <div>
                                                 @if($file->media)
-                                                    <a href="{{ $file->media_url }}" 
-                                                       class="btn btn-primary btn-sm" 
+                                                    <a href="{{ $file->media_url }}"
+                                                       class="btn btn-primary btn-sm"
                                                        download="{{ $file->judul }}.{{ $extension }}">
                                                         <i class="fas fa-download me-1"></i>Unduh
                                                     </a>
                                                 @elseif($file->url)
-                                                    <a href="{{ $file->url }}" 
-                                                       target="_blank" 
+                                                    <a href="{{ $file->url }}"
+                                                       target="_blank"
                                                        class="btn btn-primary btn-sm">
                                                         <i class="fas fa-external-link-alt me-1"></i>Akses
                                                     </a>
@@ -397,7 +397,7 @@
     .nav-pills {
         flex-direction: column;
     }
-    
+
     .nav-pills .nav-link {
         margin: 2px 0;
         text-align: center;
@@ -412,19 +412,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Gallery modal
     const galleryModal = document.getElementById('galleryModal');
     const galleryImages = document.querySelectorAll('.gallery-img');
-    
+
     galleryImages.forEach(img => {
         img.addEventListener('click', function() {
             const imgSrc = this.getAttribute('data-img');
             const title = this.getAttribute('data-title');
             const desc = this.getAttribute('data-desc');
-            
+
             document.getElementById('galleryModalImg').src = imgSrc;
             document.getElementById('galleryModalTitle').textContent = title;
             document.getElementById('galleryModalDesc').textContent = desc || '';
         });
     });
-    
+
     // Tab switching with URL hash
     const tabTriggerList = [].slice.call(document.querySelectorAll('#mediaTabs button'));
     tabTriggerList.forEach(function (tabTriggerEl) {
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.hash = target.replace('#', '');
         });
     });
-    
+
     // Check URL hash on load
     const hash = window.location.hash.replace('#', '');
     if (hash) {

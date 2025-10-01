@@ -48,6 +48,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Activity Logging
             'log.admin.activity' => \App\Http\Middleware\LogAdminActivity::class,
+
+            // Block Legacy Assets
+            'block.legacy.assets' => \App\Http\Middleware\BlockLegacyAssets::class,
         ]);
 
         /*
@@ -72,6 +75,7 @@ return Application::configure(basePath: dirname(__DIR__))
             // CSRF protection is automatically included in Laravel's default web middleware
             // \App\Http\Middleware\Security\SecurityHeadersMiddleware::class,
             // \App\Http\Middleware\Security\RequestSanitizerMiddleware::class,
+            \App\Http\Middleware\BlockLegacyAssets::class,
         ]);
 
         $middleware->api(append: [
@@ -93,7 +97,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'security.monitoring',
         ]);
 
-        // Login protection group  
+        // Login protection group
         $middleware->group('login.protected', [
             'brute.force.protection',
             'security.monitoring',

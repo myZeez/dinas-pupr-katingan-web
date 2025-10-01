@@ -4,5 +4,5 @@
 @section('description', Str::limit(strip_tags($berita->konten), 160))
 
 @section('content')
-@include('public.berita.show')
+    @include('public.berita.show')
 @endsection

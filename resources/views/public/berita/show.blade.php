@@ -17,34 +17,34 @@
                         <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($berita->judul, 30) }}</li>
                     </ol>
                 </nav>
-                
+
                 <!-- Article Meta -->
                 <div class="mb-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="d-flex align-items-center text-muted mb-3">
                         <i class="bi bi-calendar3 me-2"></i>
                         <span class="me-4">{{ $berita->tanggal ? $berita->tanggal->format('d F Y') : $berita->created_at->format('d F Y') }}</span>
-                        
+
                         @if($berita->author)
                         <i class="bi bi-person-fill me-2"></i>
                         <span class="me-4">{{ $berita->author }}</span>
                         @endif
-                        
+
                         <i class="bi bi-eye me-2"></i>
                         <span>{{ $berita->views_count ?? 0 }} kali dibaca</span>
                     </div>
                 </div>
-                
+
                 <!-- Article Title -->
                 <h1 class="display-6 fw-bold mb-4 no-select" style="color: var(--secondary-color);" data-aos="fade-up" data-aos-delay="200">
                     {{ $berita->judul }}
                 </h1>
-                
+
                 <!-- Featured Image -->
                 @if($berita->thumbnail)
                 <div class="mb-5" data-aos="fade-up" data-aos-delay="300">
                     <div class="ratio ratio-16x9">
-                        <img src="{{ $berita->thumbnail_url }}" 
-                             class="rounded-4 shadow-lg object-fit-cover no-select" 
+                        <img src="{{ $berita->thumbnail_url }}"
+                             class="rounded-4 shadow-lg object-fit-cover no-select"
                              alt="{{ $berita->judul }}"
                              onerror="this.parentElement.parentElement.style.display='none';">
                     </div>
@@ -64,20 +64,20 @@
                 <div class="content mb-5 no-select" data-aos="fade-up">
                     {!! nl2br($berita->konten) !!}
                 </div>
-                
+
                 <!-- Share Buttons -->
                 <div class="border-top pt-4 mb-5" data-aos="fade-up">
                     <h6 class="fw-bold mb-3">Bagikan Artikel:</h6>
                     <div class="d-flex gap-2">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}" 
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                            target="_blank" class="btn btn-outline-primary btn-sm">
                             <i class="bi bi-facebook me-1"></i>Facebook
                         </a>
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($berita->judul) }}" 
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}&text={{ urlencode($berita->judul) }}"
                            target="_blank" class="btn btn-outline-info btn-sm">
                             <i class="bi bi-twitter me-1"></i>Twitter
                         </a>
-                        <a href="https://wa.me/?text={{ urlencode($berita->judul . ' - ' . request()->fullUrl()) }}" 
+                        <a href="https://wa.me/?text={{ urlencode($berita->judul . ' - ' . request()->fullUrl()) }}"
                            target="_blank" class="btn btn-outline-success btn-sm">
                             <i class="bi bi-whatsapp me-1"></i>WhatsApp
                         </a>
@@ -99,26 +99,26 @@
             <h2 class="section-title no-select">Berita Terkait</h2>
             <p class="section-subtitle no-select">Artikel lainnya yang mungkin menarik untuk Anda</p>
         </div>
-        
+
         <div class="row g-4">
             @foreach($relatedBerita as $related)
             <div class="col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
                 <article class="card h-100 border-0 shadow-sm">
                     <div class="position-relative overflow-hidden" style="height: 200px;">
                         @if($related->thumbnail)
-                            <img src="{{ $related->thumbnail_url }}" 
-                                 class="card-img-top h-100 no-select" 
-                                 alt="{{ $related->judul }}" 
+                            <img src="{{ $related->thumbnail_url }}"
+                                 class="card-img-top h-100 no-select"
+                                 alt="{{ $related->judul }}"
                                  style="object-fit: cover;"
                                  onerror="this.style.display='none'; this.parentElement.querySelector('.bg-light').style.display='flex';">
                         @endif
-                        
+
                         <div class="bg-light h-100 d-flex align-items-center justify-content-center"
                              style="{{ $related->thumbnail ? 'display: none;' : 'display: flex;' }}">
                             <i class="bi bi-image text-muted fs-1"></i>
                         </div>
                     </div>
-                    
+
                     <div class="card-body p-4">
                         <div class="d-flex flex-wrap gap-2 text-muted small mb-2 no-select">
                             <span>
@@ -133,7 +133,7 @@
                             @endif
                         </div>
                         <h5 class="card-title fw-bold mt-2 mb-3 no-select">
-                            <a href="{{ route('public.berita.show', $related->slug) }}" 
+                            <a href="{{ route('public.berita.show', $related->slug) }}"
                                class="text-decoration-none" style="color: var(--secondary-color);">
                                 {{ Str::limit($related->judul, 60) }}
                             </a>
@@ -141,7 +141,7 @@
                         <p class="card-text text-muted no-select">
                             {{ Str::limit(strip_tags($related->konten), 100) }}
                         </p>
-                        <a href="{{ route('public.berita.show', $related->slug) }}" 
+                        <a href="{{ route('public.berita.show', $related->slug) }}"
                            class="btn btn-outline-primary btn-sm">
                             Baca Artikel
                         </a>
@@ -150,7 +150,7 @@
             </div>
             @endforeach
         </div>
-        
+
         <div class="text-center mt-5" data-aos="fade-up">
             <a href="{{ route('public.berita') }}" class="btn btn-primary">
                 <i class="bi bi-grid me-2"></i>Lihat Semua Berita
@@ -161,7 +161,7 @@
 @endif
 
 <!-- Back to Top -->
-<button class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4" 
+<button class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4"
         id="backToTop" style="width: 50px; height: 50px; display: none; z-index: 1000;">
     <i class="bi bi-arrow-up"></i>
 </button>
@@ -286,7 +286,7 @@ function copyToClipboard() {
         btn.innerHTML = '<i class="bi bi-check me-1"></i>Tersalin!';
         btn.classList.remove('btn-outline-secondary');
         btn.classList.add('btn-success');
-        
+
         setTimeout(() => {
             btn.innerHTML = originalText;
             btn.classList.remove('btn-success');
@@ -321,13 +321,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             return false;
         });
-        
+
         // Disable drag for images and text
         element.addEventListener('dragstart', function(e) {
             e.preventDefault();
             return false;
         });
-        
+
         // Disable select all with Ctrl+A on content area
         element.addEventListener('keydown', function(e) {
             if (e.ctrlKey && (e.key === 'a' || e.key === 'A')) {
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Disable F12, Ctrl+Shift+I, Ctrl+U (optional - for additional protection)
     document.addEventListener('keydown', function(e) {
         // Disable F12
@@ -344,26 +344,26 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             return false;
         }
-        
+
         // Disable Ctrl+Shift+I (Developer Tools)
         if (e.ctrlKey && e.shiftKey && e.key === 'I') {
             e.preventDefault();
             return false;
         }
-        
+
         // Disable Ctrl+U (View Source)
         if (e.ctrlKey && e.key === 'u') {
             e.preventDefault();
             return false;
         }
-        
+
         // Disable Ctrl+S (Save Page)
         if (e.ctrlKey && e.key === 's') {
             e.preventDefault();
             return false;
         }
     });
-    
+
     // Disable print screen (limited effectiveness)
     document.addEventListener('keyup', function(e) {
         if (e.key === 'PrintScreen') {

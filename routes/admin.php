@@ -166,7 +166,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'log.admin.activity'
             Route::get('/{fileDownload}/edit', [FileDownloadController::class, 'edit'])->name('edit');
             Route::put('/{fileDownload}', [FileDownloadController::class, 'update'])->name('update');
             Route::delete('/{fileDownload}', [FileDownloadController::class, 'destroy'])->name('destroy');
-            Route::get('/{fileDownload}/file', [FileDownloadController::class, 'downloadFile'])->name('file');
+            Route::get('/{fileDownload}/file', [FileDownloadController::class, 'download'])->name('file');
         });
 
         // Program nested routes
@@ -179,6 +179,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'log.admin.activity'
             Route::put('/{program}', [ProgramController::class, 'update'])->name('update');
             Route::delete('/{program}', [ProgramController::class, 'destroy'])->name('destroy');
             Route::patch('/{program}/toggle-status', [ProgramController::class, 'toggleStatus'])->name('toggle-status');
+            // New status management routes
+            Route::post('/{program}/update-status', [ProgramController::class, 'updateStatus'])->name('update-status');
+            Route::get('/{program}/status-history', [ProgramController::class, 'getStatusHistory'])->name('status-history');
+            Route::post('/sync-statuses', [ProgramController::class, 'syncStatuses'])->name('sync-statuses');
         });
 
         // Video nested routes

@@ -15,7 +15,7 @@ use App\Models\Struktur;
 use App\Models\Profil;
 use App\Models\User;
 use App\Mail\KontakNotification;
-use App\Services\CaptchaService;
+use App\Services\SimpleCaptchaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -329,11 +329,11 @@ class PublicController extends Controller
 
     public function ulasanStore(Request $request)
     {
-        // CAPTCHA verification
-        $captchaService = new CaptchaService();
+        // Simple CAPTCHA verification
+        $captchaService = new SimpleCaptchaService();
         if ($captchaService->isRequired()) {
-            if (!$captchaService->verify($request->input('g-recaptcha-response'), $request)) {
-                return back()->withErrors(['captcha' => 'Verifikasi CAPTCHA gagal. Silakan coba lagi.'])->withInput();
+            if (!$captchaService->verify($request)) {
+                return back()->withErrors(['captcha' => 'Jawaban CAPTCHA salah. Silakan coba lagi.'])->withInput();
             }
         }
 
@@ -341,16 +341,17 @@ class PublicController extends Controller
         $isNewForm = $request->has('review_nama');
 
         if ($isNewForm) {
-            // New form from contact page
-            $validator = Validator::make($request->all(), [
+            // New form from contact page - merge validation rules
+            $validationRules = array_merge([
                 'review_nama' => 'required|string|max:255',
                 'review_email' => 'required|email|max:255',
                 'review_telepon' => 'nullable|string|max:20',
                 'layanan' => 'required|string|max:255',
                 'rating' => 'required|integer|min:1|max:5',
                 'review_pesan' => 'required|string|min:10',
-                'g-recaptcha-response' => 'required_if:' . ($captchaService->isRequired() ? 'true' : 'false') . ',true',
-            ], [
+            ], $captchaService->getValidationRules());
+
+            $validationMessages = array_merge([
                 'review_nama.required' => 'Nama lengkap harus diisi.',
                 'review_email.required' => 'Email harus diisi.',
                 'review_email.email' => 'Format email tidak valid.',
@@ -360,8 +361,9 @@ class PublicController extends Controller
                 'rating.max' => 'Rating maksimal 5 bintang.',
                 'review_pesan.required' => 'Ulasan harus diisi.',
                 'review_pesan.min' => 'Ulasan minimal 10 karakter.',
-                'g-recaptcha-response.required_if' => 'Verifikasi CAPTCHA wajib dilengkapi.',
-            ]);
+            ], $captchaService->getValidationMessages());
+
+            $validator = Validator::make($request->all(), $validationRules, $validationMessages);
 
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
@@ -378,16 +380,17 @@ class PublicController extends Controller
 
             return back()->with('review_success', 'Ulasan Anda berhasil dikirim dan sedang dalam proses moderasi. Terima kasih!');
         } else {
-            // Old form from ulasan page
-            $validator = Validator::make($request->all(), [
+            // Old form from ulasan page - merge validation rules
+            $validationRules = array_merge([
                 'nama' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'rating' => 'required|integer|min:1|max:5',
                 'komentar' => 'required|string|max:1000',
-                'g-recaptcha-response' => 'required_if:' . ($captchaService->isRequired() ? 'true' : 'false') . ',true',
-            ], [
-                'g-recaptcha-response.required_if' => 'Verifikasi CAPTCHA wajib dilengkapi.',
-            ]);
+            ], $captchaService->getValidationRules());
+
+            $validationMessages = $captchaService->getValidationMessages();
+
+            $validator = Validator::make($request->all(), $validationRules, $validationMessages);
 
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
@@ -445,15 +448,7 @@ class PublicController extends Controller
         return view('public.video-detail', compact('video', 'relatedVideos'));
     }
 
-    public function layanan()
-    {
-        return view('public.layanan');
-    }
-
-    public function layananForm($type)
-    {
-        return view('public.layanan-form', compact('type'));
-    }
+    // Layanan feature removed (layanan() and layananForm() deleted)
 
     public function unduhan()
     {
@@ -476,24 +471,32 @@ class PublicController extends Controller
 
     public function kontakStore(Request $request)
     {
-        // CAPTCHA verification
-        $captchaService = new CaptchaService();
+        // Simple CAPTCHA verification
+        $captchaService = new SimpleCaptchaService();
         if ($captchaService->isRequired()) {
-            if (!$captchaService->verify($request->input('g-recaptcha-response'), $request)) {
-                return back()->withErrors(['captcha' => 'Verifikasi CAPTCHA gagal. Silakan coba lagi.'])->withInput();
+            if (!$captchaService->verify($request)) {
+                return back()->withErrors(['captcha' => 'Jawaban CAPTCHA salah. Silakan coba lagi.'])->withInput();
             }
         }
 
-        $validator = Validator::make($request->all(), [
+        // Merge captcha validation rules
+        $validationRules = array_merge([
             'nama' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'telepon' => 'nullable|string|max:20',
             'subjek' => 'required|string|max:255',
             'pesan' => 'required|string',
-            'g-recaptcha-response' => 'required_if:' . ($captchaService->isRequired() ? 'true' : 'false') . ',true',
-        ], [
-            'g-recaptcha-response.required_if' => 'Verifikasi CAPTCHA wajib dilengkapi.',
-        ]);
+        ], $captchaService->getValidationRules());
+
+        $validationMessages = array_merge([
+            'nama.required' => 'Nama harus diisi.',
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'subjek.required' => 'Subjek harus diisi.',
+            'pesan.required' => 'Pesan harus diisi.',
+        ], $captchaService->getValidationMessages());
+
+        $validator = Validator::make($request->all(), $validationRules, $validationMessages);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();

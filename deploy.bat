@@ -9,7 +9,7 @@ if not exist .env (
     copy .env.production .env
     echo ⚠️  Please edit .env file with your hosting credentials!
     echo    - Database credentials
-    echo    - Domain URL  
+    echo    - Domain URL
     echo    - SMTP settings
     pause
     exit /b 1

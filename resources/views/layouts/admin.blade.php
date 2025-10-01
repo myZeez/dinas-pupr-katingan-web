@@ -6,8 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Admin') - {{ config('app.name', 'Laravel') }}</title>
-    <link rel="icon" type="image/png" href="{{ asset('img/LOGO.png') }}">
+    @php
+        $profil = \App\Models\Profil::first();
+    @endphp
+
+    <title>@yield('title', 'Admin') - {{ $profil->nama_instansi ?? config('app.name', 'Laravel') }}</title>
+
+    <!-- Favicon (cached) -->
+    @include('components.favicon', ['profil' => $profil])
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -744,10 +750,10 @@
     <!-- Top Header -->
     <div class="top-header">
         <div class="logo">
-            <img src="{{ asset('img/LOGO.png') }}" alt="Logo DINAS PUPR">
+            @include('components.logo')
             <div>
-                <h4>DINAS PUPR</h4>
-                <small>Kab. Katingan</small>
+                <h4>{{ $profil->nama_instansi ?? 'ADMIN PANEL' }}</h4>
+                <small>{{ $profil->alamat ?? 'Sistem Administrasi' }}</small>
             </div>
         </div>
         <div>

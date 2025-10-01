@@ -4,5 +4,5 @@
 @section('description', 'Berita terkini dan publikasi Dinas PUPR Kabupaten Katingan')
 
 @section('content')
-@include('public.berita.index')
+    @include('public.berita.index')
 @endsection

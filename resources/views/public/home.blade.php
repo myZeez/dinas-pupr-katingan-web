@@ -161,9 +161,9 @@
                                     class="btn btn-warning btn-lg px-4 py-3 fw-semibold shadow-lg">
                                     <i class="bi bi-eye me-2"></i>Lihat Program
                                 </a>
-                                <a href="{{ route('public.layanan') }}"
+                                <a href="{{ route('public.berita') }}"
                                     class="btn btn-outline-light btn-lg px-4 py-3 fw-semibold shadow-lg">
-                                    <i class="bi bi-headset me-2"></i>Layanan Publik
+                                    <i class="bi bi-newspaper me-2"></i>Berita & Informasi
                                 </a>
                             </div>
                         </div>

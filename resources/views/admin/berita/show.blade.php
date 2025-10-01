@@ -1,99 +1,505 @@
 @extends('layouts.admin')
 
 @section('title', 'Detail Berita')
-@section('page-title', 'Detail Berita')
-@section('page-subtitle', 'Lihat detail informasi berita')
+
+@push('styles')
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .page-header {
+            padding: 20px 0;
+            background-color: white;
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .breadcrumb {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 0 0;
+            display: flex;
+            gap: 8px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '>';
+            margin-left: 8px;
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            color: #212529;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .image-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .main-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.02);
+        }
+
+        .content-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 15px 0;
+        }
+
+        .content-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .content-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .info-card {
+            height: fit-content;
+        }
+
+        .info-header {
+            background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
+            padding: 20px;
+            border-bottom: 1px solid #e3e6f0;
+            text-align: center;
+        }
+
+        .info-header h6 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table tr {
+            border-bottom: 1px solid #e3e6f0;
+        }
+
+        .info-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .info-table th,
+        .info-table td {
+            padding: 15px 20px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .info-table th {
+            font-weight: 600;
+            color: #333;
+            width: 40%;
+            font-size: 14px;
+        }
+
+        .info-table td {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .action-buttons {
+            padding: 20px;
+            border-top: 1px solid #e3e6f0;
+            background: #f8f9fc;
+        }
+
+        .action-buttons .btn {
+            width: 100%;
+            margin-bottom: 10px;
+            justify-content: flex-start;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .btn-group {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .main-container {
+                padding: 0 15px;
+            }
+
+            .content-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+@endpush
 
 @section('content')
-
-<!-- Back Button -->
-<div class="mb-4 fade-in-up">
-    <a href="{{ route('admin.konten.index', ['tab' => 'berita']) }}" class="btn btn-secondary">
-        <i class="bi bi-arrow-left me-2"></i>Kembali ke Daftar Berita
-    </a>
-</div>
-
-<div class="row g-4 fade-in-up">
-    <div class="col-lg-8">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                @if($berita->thumbnail)
-                    <img src="{{ asset('storage/' . $berita->thumbnail) }}" alt="{{ $berita->judul }}" class="img-fluid rounded-lg mb-4" style="max-height: 400px; width: 100%; object-fit: cover;">
-                @endif
-                
-                <h1 class="h3 mb-3 fw-bold">{{ $berita->judul }}</h1>
-                
-                <div class="d-flex align-items-center text-muted mb-4">
-                    <i class="bi bi-calendar-event me-2"></i>
-                    <span>{{ $berita->tanggal ? $berita->tanggal->format('d F Y') : '-' }}</span>
-                    <span class="mx-2">•</span>
-                    <i class="bi bi-clock me-2"></i>
-                    <span>{{ $berita->created_at ? $berita->created_at->format('H:i') : '-' }} WIB</span>
-                </div>
-
-                <div class="content">
-                    {!! $berita->konten !!}
-                </div>
+    <!-- Header Section -->
+    <div class="page-header">
+        <div class="header-container">
+            <div>
+                <h1 class="page-title">Detail Berita</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ route('admin.konten.index', ['tab' => 'berita']) }}">Konten</a></li>
+                        <li>Detail Berita</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="btn-group">
+                <a href="{{ route('admin.konten.berita.edit', $berita) }}" class="btn btn-warning">
+                    ✏️ Edit Berita
+                </a>
+                <a href="{{ route('admin.konten.index', ['tab' => 'berita']) }}" class="btn btn-primary">
+                    ← Kembali
+                </a>
             </div>
         </div>
     </div>
-    
-    <div class="col-lg-4">
-        <div class="card shadow-sm">
-            <div class="card-header">
-                <h6 class="mb-0 fw-semibold">
-                    <i class="bi bi-gear me-2"></i>
-                    Aksi
-                </h6>
-            </div>
-            <div class="card-body">
-                <div class="d-grid gap-2">
-                    <a href="{{ route('admin.konten.berita.edit', $berita) }}" class="btn btn-warning">
-                        <i class="bi bi-pencil me-1"></i>Edit Berita
-                    </a>
-                    <a href="{{ route('admin.konten.index', ['tab' => 'berita']) }}" class="btn btn-secondary">
-                        <i class="bi bi-arrow-left me-1"></i>Kembali ke Daftar
-                    </a>
-                    <form action="{{ route('admin.konten.berita.destroy', $berita) }}" method="POST" class="d-inline" 
-                          onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger w-100">
-                            <i class="bi bi-trash me-1"></i>Hapus Berita
-                        </button>
-                    </form>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="content-grid">
+            <!-- Left Card: Content and Details -->
+            <div class="card">
+                <div class="card-body">
+                    @if ($berita->thumbnail)
+                        <div class="image-section">
+                            <img src="{{ asset('storage/' . $berita->thumbnail) }}" alt="{{ $berita->judul }}"
+                                class="main-image" onclick="openImageModal()">
+                        </div>
+                    @endif
+
+                    <h2 class="content-title">{{ $berita->judul }}</h2>
+
+                    <div class="content-meta">
+                        <span>📅
+                            {{ $berita->tanggal ? $berita->tanggal->format('d F Y') : ($berita->created_at ? $berita->created_at->format('d F Y') : '-') }}</span>
+                        <span>🕒 {{ $berita->created_at ? $berita->created_at->format('H:i') : '-' }} WIB</span>
+                        <span>👤 {{ $berita->user ? $berita->user->name : 'Admin' }}</span>
+                    </div>
+
+                    <div class="content-description">
+                        {!! $berita->konten !!}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card shadow-sm">
-            <div class="card-header">
-                <h6 class="mb-0 fw-semibold">
-                    <i class="bi bi-info-circle me-2"></i>
-                    Informasi
-                </h6>
-            </div>
-            <div class="card-body">
-                <table class="table table-sm">
+            <!-- Right Card: Information Panel -->
+            <div class="card info-card">
+                <div class="info-header">
+                    <h6>ℹ️ Informasi Berita</h6>
+                </div>
+                <table class="info-table">
                     <tr>
-                        <td><strong>Slug:</strong></td>
-                        <td>{{ $berita->slug }}</td>
+                        <th>Slug:</th>
+                        <td><small>{{ $berita->slug }}</small></td>
                     </tr>
                     <tr>
-                        <td><strong>Dibuat:</strong></td>
-                        <td>{{ $berita->created_at ? $berita->created_at->format('d M Y, H:i') : '-' }}</td>
+                        <th>Status:</th>
+                        <td>
+                            <span class="badge badge-success">Aktif</span>
+                        </td>
                     </tr>
                     <tr>
-                        <td><strong>Diperbarui:</strong></td>
-                        <td>{{ $berita->updated_at ? $berita->updated_at->format('d M Y, H:i') : '-' }}</td>
+                        <th>Jumlah Karakter:</th>
+                        <td>{{ number_format(strlen(strip_tags($berita->konten))) }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Karakter:</strong></td>
-                        <td>{{ strlen($berita->konten) }}</td>
+                        <th>Tanggal Berita:</th>
+                        <td>{{ $berita->tanggal ? $berita->tanggal->format('d M Y') : '-' }}</td>
                     </tr>
+                    @if ($berita->thumbnail)
+                        <tr>
+                            <th>Thumbnail:</th>
+                            <td><small>Ada</small></td>
+                        </tr>
+                    @endif
+                    <tr>
+                        <th>Dibuat:</th>
+                        <td>{{ $berita->created_at->format('d M Y, H:i') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Diperbarui:</th>
+                        <td>{{ $berita->updated_at->format('d M Y, H:i') }}</td>
+                    </tr>
+                    @if ($berita->user)
+                        <tr>
+                            <th>Dibuat oleh:</th>
+                            <td>{{ $berita->user->name }}</td>
+                        </tr>
+                    @endif
                 </table>
+
+                <div class="action-buttons">
+                    <a href="{{ route('admin.konten.berita.edit', $berita) }}" class="btn btn-warning">
+                        ✏️ Edit Berita
+                    </a>
+                    <button type="button" class="btn btn-danger" onclick="openDeleteModal()">
+                        🗑️ Hapus Berita
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Image Modal -->
+    @if ($berita->thumbnail)
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeImageModal()">&times;</span>
+            <img class="modal-image" src="{{ asset('storage/' . $berita->thumbnail) }}" alt="{{ $berita->judul }}">
+        </div>
+    @endif
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h4 style="margin-bottom: 15px; color: #333;">Konfirmasi Hapus</h4>
+            <p style="margin-bottom: 25px; color: #666;">Apakah Anda yakin ingin menghapus berita "{{ $berita->judul }}"?
+            </p>
+            <div class="btn-group">
+                <form action="{{ route('admin.konten.berita.destroy', $berita) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+                </form>
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openImageModal() {
+            document.getElementById('imageModal').classList.add('show');
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.remove('show');
+        }
+
+        function openDeleteModal() {
+            document.getElementById('deleteModal').classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const imageModal = document.getElementById('imageModal');
+            const deleteModal = document.getElementById('deleteModal');
+
+            if (event.target === imageModal) {
+                closeImageModal();
+            }
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+                closeDeleteModal();
+            }
+        });
+    </script>
 @endsection

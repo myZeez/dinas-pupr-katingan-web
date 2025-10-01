@@ -13,7 +13,8 @@ class ProfilSeeder extends Seeder
      */
     public function run(): void
     {
-        Profil::create([
+        // Update or create profil data
+        $profilData = [
             'nama_instansi' => 'Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Katingan',
             'visi' => 'Terwujudnya infrastruktur yang berkualitas dan penataan ruang yang optimal untuk mendukung pembangunan berkelanjutan di Kabupaten Katingan.',
             'misi' => "1. Meningkatkan kualitas infrastruktur jalan, jembatan, dan bangunan air untuk mendukung konektivitas dan perekonomian daerah.
@@ -32,17 +33,35 @@ FUNGSI:
             'sejarah' => 'Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Katingan dibentuk berdasarkan Peraturan Daerah untuk menangani pembangunan infrastruktur dan penataan ruang di wilayah Kabupaten Katingan, Kalimantan Tengah.',
             'motto' => 'Membangun dengan Integritas, Melayani dengan Dedikasi',
             'nilai_nilai' => "1. INTEGRITAS - Jujur, konsisten, dan dapat dipercaya
-2. PROFESIONAL - Kompeten dan berkualitas dalam bekerja  
+2. PROFESIONAL - Kompeten dan berkualitas dalam bekerja
 3. INOVATIF - Kreatif dan selalu mencari solusi terbaik
 4. RESPONSIF - Tanggap terhadap kebutuhan masyarakat
 5. AKUNTABEL - Bertanggung jawab atas setiap tindakan",
-            'alamat' => 'Jl. A. Yani KM. 2, Kasongan, Kabupaten Katingan, Kalimantan Tengah',
-            'telepon' => '(0536) 21234',
-            'email' => 'dinaspu@katingankab.go.id',
-            'website' => 'https://dinaspu.katingankab.go.id',
+            'alamat' => 'Jl. Raya Kasongan No. 123, Katingan, Kalimantan Tengah',
+            'telepon' => '(0536) 123456',
+            'email' => 'info@puprkatingan.go.id',
+            'website' => 'https://puprkatingan.go.id',
             'jam_operasional' => 'Senin - Jumat: 08:00 - 16:00 WIB',
             'status' => 'aktif',
-            'user_id' => 1
-        ]);
+            'user_id' => null // Set to null to avoid foreign key issues
+        ];
+
+        // Check if profil exists
+        $profil = Profil::first();
+
+        if ($profil) {
+            // Update existing data
+            $profil->update($profilData);
+            $this->command->info('Data profil berhasil diperbarui!');
+        } else {
+            // Create new data
+            Profil::create($profilData);
+            $this->command->info('Data profil berhasil dibuat!');
+        }
+
+        $this->command->info('Profil: ' . $profilData['nama_instansi']);
+        $this->command->info('Alamat: ' . $profilData['alamat']);
+        $this->command->info('Telepon: ' . $profilData['telepon']);
+        $this->command->info('Email: ' . $profilData['email']);
     }
 }

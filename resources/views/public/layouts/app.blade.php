@@ -5,12 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="@yield('description', 'Website Resmi Dinas PUPR Kabupaten Katingan - Melayani Masyarakat dengan Profesional dan Transparan')">
+
+    @php
+        $profil = \App\Models\Profil::first();
+    @endphp
+
+    <meta name="description"
+        content="Website Resmi {{ $profil->nama_instansi ?? 'Dinas PUPR Kabupaten Katingan' }} - Melayani Masyarakat dengan Profesional dan Transparan">
     <meta name="keywords" content="dinas pupr, katingan, pembangunan, infrastruktur, jalan, jembatan">
-    <meta name="author" content="Dinas PUPR Kabupaten Katingan">
+    <meta name="author" content="{{ $profil->nama_instansi ?? 'Dinas PUPR Kabupaten Katingan' }}">
 
-    <title>@yield('title', 'Beranda') - Dinas PUPR Kabupaten Katingan</title>
+    <title>
+        @hasSection('title')
+            {!! trim(strip_tags($__env->yieldContent('title'))) !!} - {{ $profil->nama_instansi ?? 'Dinas PUPR Kabupaten Katingan' }}
+        @else
+            Beranda - {{ $profil->nama_instansi ?? 'Dinas PUPR Kabupaten Katingan' }}
+        @endif
+    </title>
 
+    <!-- Langsung tampilkan logo instansi sebagai favicon -->
+    @if ($profil && $profil->logo)
+        <link rel="icon" type="image/png" href="{{ asset('storage/' . $profil->logo) }}">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('storage/' . $profil->logo) }}">
+    @endif
+
+    <!-- Additional head content dari halaman individual -->
+    @stack('head')
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -925,9 +945,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('public.home') }}">
-                <img src="{{ asset('img/LOGO.png') }}" alt="Logo Dinas PUPR"
-                    style="height: 40px; width: auto; margin-right: 10px;">
-                <span>Dinas PUPR</span>
+                @include('components.logo', ['style' => 'height: 40px; width: auto; margin-right: 10px;'])
+                <span>{{ $profil->nama_instansi ?? 'Dinas PUPR' }}</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -979,9 +998,28 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <h5 class="fw-bold mb-3">Dinas PUPR Kabupaten Katingan</h5>
-                    <p class="mb-3">Melayani masyarakat dengan profesional dan transparan dalam pembangunan
-                        infrastruktur yang berkelanjutan.</p>
+                    <div class="d-flex align-items-center mb-3">
+                        @include('components.logo', [
+                            'style' => 'height: 50px; width: auto; margin-right: 15px;',
+                        ])
+                        <h5 class="fw-bold mb-0">{{ $profil->nama_instansi ?? 'Dinas PUPR Kabupaten Katingan' }}</h5>
+                    </div>
+                    <p class="mb-3">
+                        @php
+                            $misi =
+                                $profil->misi ??
+                                'Melayani masyarakat dengan profesional dan transparan dalam pembangunan infrastruktur yang berkelanjutan.';
+                            $shortMisi = Str::limit($misi, 80);
+                        @endphp
+                        {{ $shortMisi }}
+                        @if (strlen($misi) > 80)
+                            <br>
+                            <a href="#" class="btn btn-sm btn-outline-light mt-2" data-bs-toggle="modal"
+                                data-bs-target="#aboutModal">
+                                <i class="bi bi-info-circle me-1"></i>Selengkapnya
+                            </a>
+                        @endif
+                    </p>
                     <div class="social-links">
                         <a href="#"><i class="bi bi-facebook"></i></a>
                         <a href="#"><i class="bi bi-twitter"></i></a>
@@ -996,7 +1034,6 @@
                         <li><a href="{{ route('public.home') }}">Beranda</a></li>
                         <li><a href="{{ route('public.struktur') }}">Struktur</a></li>
                         <li><a href="{{ route('public.program') }}">Program</a></li>
-                        <li><a href="{{ route('public.layanan') }}">Layanan</a></li>
                     </ul>
                 </div>
 
@@ -1006,7 +1043,6 @@
                         <li><a href="{{ route('public.berita') }}">Berita</a></li>
                         <li><a href="{{ route('public.kontak') }}">Kontak</a></li>
                         <li><a href="#">Pengaduan</a></li>
-                        <li><a href="#">PPID</a></li>
                     </ul>
                 </div>
 
@@ -1014,16 +1050,26 @@
                     <h6 class="fw-bold mb-3">Kontak Kami</h6>
                     <div class="d-flex mb-2">
                         <i class="bi bi-geo-alt-fill me-2 mt-1"></i>
-                        <span>Jl. Raya Kasongan No. 123, Katingan, Kalimantan Tengah</span>
+                        <span>{{ $profil->alamat ?? 'Jl. Raya Kasongan No. 123, Katingan, Kalimantan Tengah' }}</span>
                     </div>
-                    <div class="d-flex mb-2">
-                        <i class="bi bi-telephone-fill me-2 mt-1"></i>
-                        <span>(0536) 123456</span>
-                    </div>
-                    <div class="d-flex mb-2">
-                        <i class="bi bi-envelope-fill me-2 mt-1"></i>
-                        <span>info@puprkatingan.go.id</span>
-                    </div>
+                    @if ($profil->telepon)
+                        <div class="d-flex mb-2">
+                            <i class="bi bi-telephone-fill me-2 mt-1"></i>
+                            <span>{{ $profil->telepon }}</span>
+                        </div>
+                    @endif
+                    @if ($profil->email)
+                        <div class="d-flex mb-2">
+                            <i class="bi bi-envelope-fill me-2 mt-1"></i>
+                            <span>{{ $profil->email }}</span>
+                        </div>
+                    @endif
+                    @if ($profil->jam_operasional)
+                        <div class="d-flex mb-2">
+                            <i class="bi bi-clock-fill me-2 mt-1"></i>
+                            <span>{{ $profil->jam_operasional }}</span>
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -1031,8 +1077,8 @@
 
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy; {{ date('Y') }} Dinas PUPR Kabupaten Katingan. All rights reserved.
-                    </p>
+                    <p class="mb-0">&copy; {{ date('Y') }}
+                        {{ $profil->nama_instansi ?? 'Dinas PUPR Kabupaten Katingan' }}. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <small>Developed with ❤️ for better public service</small>
@@ -1095,6 +1141,44 @@
             </li>
         </ul>
     </nav>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">Tentang Kami</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center mb-4">
+                        @include('components.logo', [
+                            'style' => 'height: 60px; width: auto; margin-right: 15px;',
+                        ])
+                        <h6 class="fw-bold mb-0">{{ $profil->nama_instansi ?? 'Dinas PUPR Kabupaten Katingan' }}</h6>
+                    </div>
+
+                    @if ($profil && $profil->visi)
+                        <h6 class="mt-4 fw-bold">Visi:</h6>
+                        <p>{{ $profil->visi }}</p>
+                    @endif
+
+                    @if ($profil && $profil->misi)
+                        <h6 class="mt-3 fw-bold">Misi:</h6>
+                        <p>{{ $profil->misi }}</p>
+                    @endif
+
+                    @if ($profil && $profil->sejarah)
+                        <h6 class="mt-3 fw-bold">Sejarah:</h6>
+                        <p>{{ $profil->sejarah }}</p>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

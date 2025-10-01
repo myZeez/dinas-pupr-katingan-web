@@ -41,7 +41,7 @@
                 $kepalaDinas = $strukturs->where('jabatan', 'kepala_dinas')->first();
                 $sekretaris = $strukturs->where('jabatan', 'sekretaris')->first();
             @endphp
-            
+
             @if($kepalaDinas)
             <div class="text-center mb-4">
                 <h2 class="fw-bold mb-3 text-primary fs-3">Pimpinan Dinas</h2>
@@ -51,8 +51,8 @@
                             <div class="card-body text-center p-4">
                                 <div class="position-relative mb-4">
                                     @if($kepalaDinas->foto)
-                                        <img src="{{ $kepalaDinas->foto_url }}" 
-                                             alt="{{ $kepalaDinas->nama }}" 
+                                        <img src="{{ $kepalaDinas->foto_url }}"
+                                             alt="{{ $kepalaDinas->nama }}"
                                              class="img-fluid rounded-circle mx-auto d-block leader-photo mb-3"
                                              style="width: 150px; height: 150px; object-fit: cover;"
                                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -76,8 +76,8 @@
                             <div class="card-body text-center p-4">
                                 <div class="position-relative mb-4">
                                     @if($sekretaris->foto)
-                                        <img src="{{ $sekretaris->foto_url }}" 
-                                             alt="{{ $sekretaris->nama }}" 
+                                        <img src="{{ $sekretaris->foto_url }}"
+                                             alt="{{ $sekretaris->nama }}"
                                              class="img-fluid rounded-circle mx-auto d-block leader-photo mb-3"
                                              style="width: 150px; height: 150px; object-fit: cover;"
                                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -104,7 +104,7 @@
             @php
                 $allJabatan = $strukturs->pluck('jabatan_label')->unique()->sort()->values();
             @endphp
-            
+
             <div class="mb-4">
                 <h2 class="fw-bold text-center mb-3 text-primary fs-4">Filter Berdasarkan Jabatan</h2>
                 <div class="row justify-content-center">
@@ -144,7 +144,7 @@
                 <!-- Header Section dengan Judul dan Deskripsi Jabatan -->
                 <div class="text-center mb-4 jabatan-header-section">
                     <h1 class="display-6 fw-bold jabatan-title mb-3">{{ $namaJabatan }}</h1>
-                    
+
                     @php
                         $deskripsiJabatan = '';
                         switch($namaJabatan) {
@@ -176,7 +176,7 @@
                                 $deskripsiJabatan = 'Melaksanakan tugas dan fungsi sesuai dengan jabatan dalam struktur organisasi Dinas PUPR Kabupaten Katingan untuk mendukung pelayanan publik yang optimal.';
                         }
                     @endphp
-                    
+
                     <div class="row justify-content-center">
                         <div class="col-lg-9 col-xl-8">
                             <p class="jabatan-description mb-3 fs-6">
@@ -184,7 +184,7 @@
                             </p>
                         </div>
                     </div>
-                    
+
                     <div class="row justify-content-center">
                         <div class="col-md-6">
                             <div class="d-flex justify-content-center align-items-center gap-4 mt-3">
@@ -211,8 +211,8 @@
                                 <!-- Photo Section -->
                                 <div class="position-relative mb-4">
                                     @if($anggota->foto)
-                                        <img src="{{ $anggota->foto_url }}" 
-                                             alt="{{ $anggota->nama }}" 
+                                        <img src="{{ $anggota->foto_url }}"
+                                             alt="{{ $anggota->nama }}"
                                              class="rounded-circle mx-auto d-block staff-photo-new"
                                              style="width: 100px; height: 100px; object-fit: cover;"
                                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -225,17 +225,17 @@
                                         </div>
                                     @endif
                                 </div>
-                                
+
                                 <!-- Name and Position -->
                                 <h5 class="fw-bold text-dark mb-2">{{ $anggota->nama }}</h5>
                                 <p class="text-primary fw-semibold mb-3">{{ $anggota->jabatan_label }}</p>
-                                
+
                                 <div class="mb-3">
                                     <span class="badge bg-primary px-2 py-1 rounded-pill fs-7">
                                         {{ $anggota->jabatan }}
                                     </span>
                                 </div>
-                                
+
                                 @if($anggota->unit_kerja)
                                     <p class="text-muted small mb-3">
                                         <i class="bi bi-building me-2"></i>{{ $anggota->unit_kerja }}
@@ -300,14 +300,14 @@ function filterJabatan(jabatan) {
             btn.classList.add('btn-outline-primary');
         }
     });
-    
+
     // Aktifkan tombol yang dipilih
     const activeBtn = document.getElementById('btn-' + jabatan);
     if (activeBtn) {
         activeBtn.classList.remove('btn-outline-primary');
         activeBtn.classList.add('btn-primary', 'active');
     }
-    
+
     if (jabatan === 'semua') {
         // Tampilkan semua section jabatan
         document.querySelectorAll('.jabatan-section').forEach(section => {
@@ -318,7 +318,7 @@ function filterJabatan(jabatan) {
         document.querySelectorAll('.jabatan-section').forEach(section => {
             section.style.display = 'none';
         });
-        
+
         // Tampilkan section jabatan yang dipilih
         const targetSection = document.getElementById('section-' + jabatan);
         if (targetSection) {
@@ -332,13 +332,13 @@ function filterJabatan(jabatan) {
 // Animasi untuk card hover
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.anggota-card');
-    
+
     cards.forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
             this.style.transition = 'transform 0.3s ease';
         });
-        
+
         card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
         });
@@ -478,27 +478,27 @@ document.addEventListener('DOMContentLoaded', function() {
     .jabatan-title {
         font-size: 2.5rem !important;
     }
-    
+
     .jabatan-description {
         font-size: 0.95rem !important;
         line-height: 1.5;
     }
-    
+
     .anggota-card-new {
         margin-bottom: 1rem;
     }
-    
+
     .staff-photo-new,
     .default-avatar-new {
         width: 90px !important;
         height: 90px !important;
     }
-    
+
     .detail-jabatan-new {
         padding: 0.75rem;
         margin: 0.75rem 0;
     }
-    
+
     .card-body {
         padding: 1rem !important;
     }
@@ -509,11 +509,11 @@ document.addEventListener('DOMContentLoaded', function() {
     .display-6 {
         font-size: 2.2rem !important;
     }
-    
+
     .container {
         max-width: 1200px;
     }
-    
+
     .col-xl-4 {
         flex: 0 0 auto;
         width: 33.333333%;
