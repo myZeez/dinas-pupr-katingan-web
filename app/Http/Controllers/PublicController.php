@@ -504,20 +504,24 @@ class PublicController extends Controller
 
         // Save to database (pengaduan table)
         try {
+            // Generate nomor tiket
+            $nomorTiket = 'TKT-' . date('Ymd') . '-' . str_pad(Pengaduan::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+
             Pengaduan::create([
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'telepon' => $request->telepon,
-                'subjek' => $request->subjek,  // FIXED: Map subjek to subjek column
+                'kategori' => $request->subjek,  // FIXED: Map subjek to kategori column
                 'pesan' => $request->pesan,
-                'status' => 'Baru',
-                'tanggal_pengaduan' => now()
+                'status' => 'Baru',  // FIXED: Use correct enum value
+                'nomor_tiket' => $nomorTiket
             ]);
 
             Log::info('Contact form data saved to database', [
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'subjek' => $request->subjek,  // FIXED: Log subjek, not kategori
+                'kategori' => $request->subjek,  // FIXED: Log kategori, not subjek
+                'nomor_tiket' => $nomorTiket,
                 'timestamp' => now()
             ]);
         } catch (\Exception $dbError) {

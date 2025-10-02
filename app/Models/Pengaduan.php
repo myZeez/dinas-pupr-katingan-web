@@ -16,7 +16,7 @@ class Pengaduan extends Model
         'nama',
         'email',
         'telepon',
-        'subjek',  // FIXED: Database uses 'subjek' not 'kategori'
+        'kategori',  // FIXED: Use 'kategori' as shown in database table
         'pesan',
         'status',
         'tanggal_pengaduan',

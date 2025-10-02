@@ -110,9 +110,9 @@ class PublicPengaduanController extends Controller
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'telepon' => $isKontakForm ? $request->no_hp : $request->telepon,
-                'subjek' => $isKontakForm ? $request->judul : $request->kategori,  // FIXED: Use 'subjek' column
+                'kategori' => $isKontakForm ? $request->judul : $request->kategori, // FIXED: Use 'kategori' column
                 'pesan' => $isKontakForm ? $request->isi_pengaduan : $request->pesan,
-                'status' => 'Baru',
+                'status' => 'Baru', // FIXED: Use correct enum value
                 'tanggal_pengaduan' => now()
             ];
 
@@ -129,7 +129,7 @@ class PublicPengaduanController extends Controller
             PengaduanHistory::create([
                 'pengaduan_id' => $pengaduan->id,
                 'status_from' => null,
-                'status_to' => 'Baru',
+                'status_to' => 'Baru', // FIXED: Use correct enum value
                 'action' => 'Dibuat',
                 'keterangan' => 'Pengaduan baru dibuat oleh masyarakat melalui website',
                 'admin_name' => 'Sistem',

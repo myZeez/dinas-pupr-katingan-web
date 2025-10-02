@@ -839,28 +839,6 @@
             </div>
         </section>
     @endif
-
-    <!-- CTA Section -->
-    <section class="py-5 text-white" style="background: linear-gradient(135deg, var(--primary-color) 0%, #e6a200 100%);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8" data-aos="fade-right">
-                    <h3 class="fw-bold mb-3">Butuh Layanan Publik?</h3>
-                    <p class="mb-0">Hubungi kami untuk pengaduan, saran, atau informasi seputar layanan Dinas PUPR
-                        Katingan.</p>
-                </div>
-                <div class="col-lg-4 text-lg-end" data-aos="fade-left">
-                    <a href="{{ route('public.kontak') }}" class="btn btn-light btn-lg rounded-pill me-2">
-                        <i class="bi bi-telephone me-2"></i>Hubungi Kami
-                    </a>
-                    <button class="btn btn-outline-light btn-lg rounded-pill" data-bs-toggle="modal"
-                        data-bs-target="#pengaduanModal">
-                        <i class="bi bi-chat-square-text me-2"></i>Pengaduan
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection
 
 <!-- Modal Pengaduan -->
@@ -1037,7 +1015,7 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <form action="{{ route('public.kontak') }}" method="POST" id="ulasanForm">
+                <form action="{{ route('public.ulasan.store') }}" method="POST" id="ulasanForm">
                     @csrf
                     <!-- Rating Section -->
                     <div class="mb-4">
@@ -1778,18 +1756,20 @@
                     e.preventDefault();
                     console.log('🚀 Form submitted, starting AJAX process');
 
-                    // Check CAPTCHA first
-                    const captchaResponse = grecaptcha && grecaptcha.getResponse ? grecaptcha
-                        .getResponse() : '';
+                    // Check CAPTCHA first (only if enabled)
                     const hasCaptcha = !!document.querySelector('.g-recaptcha');
+                    if (hasCaptcha) {
+                        const captchaResponse = grecaptcha && grecaptcha.getResponse ? grecaptcha
+                            .getResponse() : '';
 
-                    if (hasCaptcha && !captchaResponse) {
-                        const captchaError = document.getElementById('captcha-error');
-                        if (captchaError) {
-                            captchaError.style.display = 'block';
+                        if (!captchaResponse) {
+                            const captchaError = document.getElementById('captcha-error');
+                            if (captchaError) {
+                                captchaError.style.display = 'block';
+                            }
+                            showErrorAlert('Verifikasi CAPTCHA wajib dilengkapi.');
+                            return;
                         }
-                        showErrorAlert('Verifikasi CAPTCHA wajib dilengkapi.');
-                        return;
                     }
 
                     // Reset previous states
