@@ -330,7 +330,7 @@
                         <i class="bi bi-eye me-2"></i>Kelola Data Terhapus
                     </a>
                     <a href="{{ route('admin.examples.delete-confirmation-demo') }}" class="btn btn-outline-info btn-sm ms-2">
-                        <img src="{{ asset('icon/Done.gif') }}" alt="Demo" style="width: 16px; height: 16px; margin-right: 5px;">
+                        <img src="{{ asset('Icon/Done.gif') }}" alt="Demo" style="width: 16px; height: 16px; margin-right: 5px;">
                         Demo Konfirmasi Delete
                     </a>
                 </div>

@@ -5,10 +5,10 @@ function confirmDelete(message = 'Apakah Anda yakin ingin menghapus data ini?', 
     return new Promise((resolve) => {
         // Buat modal konfirmasi dengan GIF
         const iconMap = {
-            'delete': '{{ asset("icon/Delete.gif") }}',
-            'warning': '{{ asset("icon/loading.gif") }}',
-            'info': '{{ asset("icon/Done.gif") }}',
-            'success': '{{ asset("icon/Succes.gif") }}'
+            'delete': '{{ asset("Icon/Delete.gif") }}',
+            'warning': '{{ asset("Icon/loading.gif") }}',
+            'info': '{{ asset("Icon/Done.gif") }}',
+            'success': '{{ asset("Icon/Succes.gif") }}'
         };
 
         const modalHtml = `
@@ -113,10 +113,10 @@ $(document).ready(function() {
 function confirmAction(message, type = 'warning', confirmText = 'Ya, Lanjutkan') {
     return new Promise((resolve) => {
         const iconMap = {
-            'warning': '{{ asset("icon/loading.gif") }}',
-            'info': '{{ asset("icon/Done.gif") }}',
-            'success': '{{ asset("icon/Succes.gif") }}',
-            'delete': '{{ asset("icon/Delete.gif") }}'
+            'warning': '{{ asset("Icon/loading.gif") }}',
+            'info': '{{ asset("Icon/Done.gif") }}',
+            'success': '{{ asset("Icon/Succes.gif") }}',
+            'delete': '{{ asset("Icon/Delete.gif") }}'
         };
 
         const colorMap = {
@@ -197,7 +197,7 @@ async function confirmBatchDelete(count) {
                         <div class="modal-body text-center p-5" style="background: white;">
                             <div class="mb-4">
                                 <div class="icon-container mx-auto mb-3" style="width: 100px; height: 100px; background: transparent; border: 3px solid #dc3545; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <img src="{{ asset('icon/Delete.gif') }}" alt="Batch Delete" style="width: 60px; height: 60px;">
+                                    <img src="{{ asset('Icon/Delete.gif') }}" alt="Batch Delete" style="width: 60px; height: 60px;">
                                 </div>
                                 <h5 class="fw-bold mb-2" style="color: #212529;">Hapus ${count} Item</h5>
                                 <div style="color: #6c757d; font-size: 15px; line-height: 1.5;">${message}</div>
@@ -270,7 +270,7 @@ function showLoadingOverlay(message = 'Memproses data...') {
             max-width: 300px;
             width: 90%;
         ">
-            <img src="{{ asset('icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px; margin-bottom: 1rem;">
+            <img src="{{ asset('Icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px; margin-bottom: 1rem;">
             <h5 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 600;">Memproses...</h5>
             <p style="margin: 0; color: #666; font-size: 14px;">${message}</p>
         </div>

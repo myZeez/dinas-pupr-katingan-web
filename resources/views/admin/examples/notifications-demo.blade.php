@@ -19,7 +19,7 @@
             <div class="card shadow">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
-                        <img src="{{ asset('icon/Succes.gif') }}" alt="Success" style="width: 24px; height: 24px; margin-right: 8px;">
+                        <img src="{{ asset('Icon/Succes.gif') }}" alt="Success" style="width: 24px; height: 24px; margin-right: 8px;">
                         Icon GIF yang Tersedia
                     </h6>
                 </div>
@@ -27,28 +27,28 @@
                     <div class="row text-center">
                         <div class="col-md-3 mb-3">
                             <div class="p-3 border rounded">
-                                <img src="{{ asset('icon/Succes.gif') }}" alt="Success" style="width: 64px; height: 64px;">
+                                <img src="{{ asset('Icon/Succes.gif') }}" alt="Success" style="width: 64px; height: 64px;">
                                 <h6 class="mt-2">Success</h6>
                                 <small class="text-muted">Untuk operasi berhasil</small>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="p-3 border rounded">
-                                <img src="{{ asset('icon/Delete.gif') }}" alt="Delete" style="width: 64px; height: 64px;">
+                                <img src="{{ asset('Icon/Delete.gif') }}" alt="Delete" style="width: 64px; height: 64px;">
                                 <h6 class="mt-2">Delete</h6>
                                 <small class="text-muted">Untuk operasi hapus</small>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="p-3 border rounded">
-                                <img src="{{ asset('icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px;">
+                                <img src="{{ asset('Icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px;">
                                 <h6 class="mt-2">Loading</h6>
                                 <small class="text-muted">Untuk proses loading</small>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="p-3 border rounded">
-                                <img src="{{ asset('icon/Done.gif') }}" alt="Done" style="width: 64px; height: 64px;">
+                                <img src="{{ asset('Icon/Done.gif') }}" alt="Done" style="width: 64px; height: 64px;">
                                 <h6 class="mt-2">Done</h6>
                                 <small class="text-muted">Untuk konfirmasi selesai</small>
                             </div>
@@ -72,25 +72,25 @@
                     <div class="row">
                         <div class="col-md-3 mb-2">
                             <button onclick="showNotification('success')" class="btn btn-success w-100">
-                                <img src="{{ asset('icon/Succes.gif') }}" alt="Success" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/Succes.gif') }}" alt="Success" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Success
                             </button>
                         </div>
                         <div class="col-md-3 mb-2">
                             <button onclick="showNotification('error')" class="btn btn-danger w-100">
-                                <img src="{{ asset('icon/Delete.gif') }}" alt="Error" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/Delete.gif') }}" alt="Error" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Error
                             </button>
                         </div>
                         <div class="col-md-3 mb-2">
                             <button onclick="showNotification('info')" class="btn btn-info w-100">
-                                <img src="{{ asset('icon/Done.gif') }}" alt="Info" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/Done.gif') }}" alt="Info" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Info
                             </button>
                         </div>
                         <div class="col-md-3 mb-2">
                             <button onclick="showNotification('warning')" class="btn btn-warning w-100">
-                                <img src="{{ asset('icon/loading.gif') }}" alt="Warning" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/loading.gif') }}" alt="Warning" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Warning
                             </button>
                         </div>
@@ -116,15 +116,15 @@
                     
                     <h6 class="mt-3">3. Jenis Session yang Didukung:</h6>
                     <ul class="list-unstyled">
-                        <li><code class="text-success">success</code> - <img src="{{ asset('icon/Succes.gif') }}" alt="Success" style="width: 16px; height: 16px;"> Sukses</li>
-                        <li><code class="text-danger">error</code> - <img src="{{ asset('icon/Delete.gif') }}" alt="Error" style="width: 16px; height: 16px;"> Error</li>
-                        <li><code class="text-info">info</code> - <img src="{{ asset('icon/Done.gif') }}" alt="Info" style="width: 16px; height: 16px;"> Informasi</li>
-                        <li><code class="text-warning">warning</code> - <img src="{{ asset('icon/loading.gif') }}" alt="Warning" style="width: 16px; height: 16px;"> Peringatan</li>
+                        <li><code class="text-success">success</code> - <img src="{{ asset('Icon/Succes.gif') }}" alt="Success" style="width: 16px; height: 16px;"> Sukses</li>
+                        <li><code class="text-danger">error</code> - <img src="{{ asset('Icon/Delete.gif') }}" alt="Error" style="width: 16px; height: 16px;"> Error</li>
+                        <li><code class="text-info">info</code> - <img src="{{ asset('Icon/Done.gif') }}" alt="Info" style="width: 16px; height: 16px;"> Informasi</li>
+                        <li><code class="text-warning">warning</code> - <img src="{{ asset('Icon/loading.gif') }}" alt="Warning" style="width: 16px; height: 16px;"> Peringatan</li>
                     </ul>
 
                     <h6 class="mt-3">4. Contoh Penggunaan di Form:</h6>
                     <pre class="bg-light p-3 rounded"><code>&lt;button type="submit" class="btn btn-primary"&gt;
-    &lt;img src="{{ asset('icon/Succes.gif') }}" alt="Save" style="width: 20px; height: 20px; margin-right: 5px;"&gt;
+    &lt;img src="{{ asset('Icon/Succes.gif') }}" alt="Save" style="width: 20px; height: 20px; margin-right: 5px;"&gt;
     Simpan Data
 &lt;/button&gt;</code></pre>
                 </div>
@@ -146,10 +146,10 @@ function showNotification(type) {
     };
 
     const icons = {
-        'success': '{{ asset("icon/Succes.gif") }}',
-        'error': '{{ asset("icon/Delete.gif") }}',
-        'info': '{{ asset("icon/Done.gif") }}',
-        'warning': '{{ asset("icon/loading.gif") }}'
+        'success': '{{ asset("Icon/Succes.gif") }}',
+        'error': '{{ asset("Icon/Delete.gif") }}',
+        'info': '{{ asset("Icon/Done.gif") }}',
+        'warning': '{{ asset("Icon/loading.gif") }}'
     };
 
     const colors = {

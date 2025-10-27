@@ -303,7 +303,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">
-                            <img src="{{ asset('icon/Delete.gif') }}" alt="Delete"
+                            <img src="{{ asset('Icon/Delete.gif') }}" alt="Delete"
                                 style="width: 20px; height: 20px; margin-right: 5px;">
                             Ya, Bersihkan
                         </button>
@@ -424,7 +424,7 @@
             max-width: 300px;
             width: 90%;
         ">
-            <img src="{{ asset('icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px; margin-bottom: 1rem;">
+            <img src="{{ asset('Icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px; margin-bottom: 1rem;">
             <h5 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 600;">Memproses...</h5>
             <p style="margin: 0; color: #666; font-size: 14px;">${message}</p>
         </div>

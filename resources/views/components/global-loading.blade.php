@@ -3,7 +3,7 @@
     <div class="loading-container">
         <div class="loading-content">
             <div class="loading-icon">
-                <img src="{{ asset('icon/loading.gif') }}" alt="Loading..." style="width: 80px; height: 80px;">
+                <img src="{{ asset('Icon/loading.gif') }}" alt="Loading..." style="width: 80px; height: 80px;">
             </div>
             <div class="loading-text">
                 <h5 id="loadingTitle">Memproses...</h5>

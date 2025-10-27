@@ -119,7 +119,7 @@
                 <div class="row mt-4">
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">
-                            <img src="{{ asset('icon/Succes.gif') }}" alt="Update" style="width: 20px; height: 20px; margin-right: 5px;">
+                            <img src="{{ asset('Icon/Succes.gif') }}" alt="Update" style="width: 20px; height: 20px; margin-right: 5px;">
                             Update Video
                         </button>
                         <a href="{{ route('admin.konten.video.index') }}" class="btn btn-secondary ms-2">Batal</a>

@@ -233,7 +233,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-warning">
-                            <img src="{{ asset('icon/Delete.gif') }}" alt="Delete"
+                            <img src="{{ asset('Icon/Delete.gif') }}" alt="Delete"
                                 style="width: 20px; height: 20px; margin-right: 5px;">
                             Bersihkan Log
                         </button>

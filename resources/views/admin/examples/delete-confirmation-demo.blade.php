@@ -19,7 +19,7 @@
             <div class="card shadow">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
-                        <img src="{{ asset('icon/Delete.gif') }}" alt="Delete" style="width: 24px; height: 24px; margin-right: 8px;">
+                        <img src="{{ asset('Icon/Delete.gif') }}" alt="Delete" style="width: 24px; height: 24px; margin-right: 8px;">
                         Sistem Konfirmasi Delete Universal
                     </h6>
                 </div>
@@ -47,7 +47,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger w-100" style="background: #dc3545; color: white; border: none; border-radius: 8px; padding: 12px;">
-                                    <img src="{{ asset('icon/Delete.gif') }}" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    <img src="{{ asset('Icon/Delete.gif') }}" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
                                     Delete Normal
                                 </button>
                             </form>
@@ -58,7 +58,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-warning w-100" style="background: #ffc107; color: #212529; border: none; border-radius: 8px; padding: 12px;">
-                                    <img src="{{ asset('icon/Delete.gif') }}" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    <img src="{{ asset('Icon/Delete.gif') }}" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
                                     Force Delete
                                 </button>
                             </form>
@@ -66,42 +66,42 @@
 
                         <div class="col-md-3 mb-3">
                             <button onclick="demoConfirmAction()" class="btn btn-info w-100" style="background: linear-gradient(135deg, #17a2b8, #138496); border: none; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);">
-                                <img src="{{ asset('icon/Done.gif') }}" alt="Confirm" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/Done.gif') }}" alt="Confirm" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Custom Action
                             </button>
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <button onclick="demoBatchDelete()" class="btn btn-secondary w-100" style="background: linear-gradient(135deg, #6c757d, #545b62); border: none; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);">
-                                <img src="{{ asset('icon/Delete.gif') }}" alt="Batch" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/Delete.gif') }}" alt="Batch" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Batch Delete (5 items)
                             </button>
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <button onclick="demoWarningAction()" class="btn btn-warning w-100" style="background: linear-gradient(135deg, #ffc107, #e0a800); border: none; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);">
-                                <img src="{{ asset('icon/loading.gif') }}" alt="Warning" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/loading.gif') }}" alt="Warning" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Warning Action
                             </button>
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <button onclick="demoSuccessAction()" class="btn btn-success w-100" style="background: linear-gradient(135deg, #28a745, #208637); border: none; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">
-                                <img src="{{ asset('icon/Succes.gif') }}" alt="Success" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/Succes.gif') }}" alt="Success" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Success Action
                             </button>
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <button onclick="demoLoadingOverlay()" class="btn w-100" style="background: linear-gradient(135deg, #6f42c1, #5a2d91); color: white; border: none; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);">
-                                <img src="{{ asset('icon/loading.gif') }}" alt="Loading" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/loading.gif') }}" alt="Loading" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Demo Loading
                             </button>
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <button onclick="demoRestoreAction()" class="btn w-100" style="background: linear-gradient(135deg, #20c997, #17a085); color: white; border: none; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(32, 201, 151, 0.3);">
-                                <img src="{{ asset('icon/Succes.gif') }}" alt="Restore" style="width: 20px; height: 20px; margin-right: 5px;">
+                                <img src="{{ asset('Icon/Succes.gif') }}" alt="Restore" style="width: 20px; height: 20px; margin-right: 5px;">
                                 Demo Restore
                             </button>
                         </div>
@@ -117,7 +117,7 @@
             <div class="card shadow">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-success">
-                        <img src="{{ asset('icon/Succes.gif') }}" alt="Success" style="width: 24px; height: 24px; margin-right: 8px;">
+                        <img src="{{ asset('Icon/Succes.gif') }}" alt="Success" style="width: 24px; height: 24px; margin-right: 8px;">
                         Status Implementasi di Halaman Admin
                     </h6>
                 </div>
@@ -179,7 +179,7 @@
             style="background: linear-gradient(135deg, #ff6b6b, #ee5a52); 
                    border: none; border-radius: 12px; padding: 12px; 
                    box-shadow: 0 4px 15px rgba(238, 90, 82, 0.3);"&gt;
-        &lt;img src="{{ asset('icon/Delete.gif') }}" 
+        &lt;img src="{{ asset('Icon/Delete.gif') }}" 
              style="width: 20px; height: 20px; margin-right: 5px;"&gt;
         Hapus
     &lt;/button&gt;
@@ -302,10 +302,10 @@ async function demoRestoreAction() {
 // Function untuk menampilkan demo notification
 function showDemoNotification(type, message) {
     const icons = {
-        'success': '{{ asset("icon/Succes.gif") }}',
-        'error': '{{ asset("icon/Delete.gif") }}',
-        'info': '{{ asset("icon/Done.gif") }}',
-        'warning': '{{ asset("icon/loading.gif") }}'
+        'success': '{{ asset("Icon/Succes.gif") }}',
+        'error': '{{ asset("Icon/Delete.gif") }}',
+        'info': '{{ asset("Icon/Done.gif") }}',
+        'warning': '{{ asset("Icon/loading.gif") }}'
     };
 
     const colors = {

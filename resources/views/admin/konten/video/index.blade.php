@@ -100,7 +100,7 @@
                     </div>
                 @else
                     <div class="text-center py-4">
-                        <img src="{{ asset('icon/loading.gif') }}" alt="No Data" style="width: 64px; height: 64px;">
+                        <img src="{{ asset('Icon/loading.gif') }}" alt="No Data" style="width: 64px; height: 64px;">
                         <h5 class="mt-3">Belum ada video</h5>
                         <p class="text-muted">Video yang ditambahkan akan muncul di sini</p>
                     </div>

@@ -290,7 +290,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger w-100">
-                        <img src="{{ asset('icon/Delete.gif') }}" alt="Delete"
+                        <img src="{{ asset('Icon/Delete.gif') }}" alt="Delete"
                             style="width: 20px; height: 20px; margin-right: 5px;">
                         Hapus Pengaduan
                     </button>

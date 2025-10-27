@@ -198,12 +198,12 @@ class GifNotifications {
 
     getIconPath(type) {
         const iconMap = {
-            'success': '/icon/Succes.gif',
-            'error': '/icon/Delete.gif',
-            'danger': '/icon/Delete.gif',
-            'warning': '/icon/loading.gif', // Gunakan loading untuk warning
-            'loading': '/icon/loading.gif',
-            'info': '/icon/Done.gif'
+            'success': '/Icon/Succes.gif',
+            'error': '/Icon/Delete.gif',
+            'danger': '/Icon/Delete.gif',
+            'warning': '/Icon/loading.gif', // Gunakan loading untuk warning
+            'loading': '/Icon/loading.gif',
+            'info': '/Icon/Done.gif'
         };
         
         return iconMap[type] || iconMap['info'];
