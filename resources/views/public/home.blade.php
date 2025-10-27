@@ -1799,11 +1799,12 @@
                         formData.set('_token', token);
                     }
 
-                    // Send AJAX request with better error handling
+                    // Send AJAX request with optimized settings
                     const xhr = new XMLHttpRequest();
 
                     xhr.open('POST', this.action, true);
                     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    xhr.timeout = 10000; // 10 seconds timeout for better UX
 
                     xhr.onload = function() {
                         if (xhr.status >= 200 && xhr.status < 300) {
@@ -1831,6 +1832,14 @@
                     xhr.onerror = function() {
                         handleError({
                             message: 'Terjadi kesalahan jaringan. Periksa koneksi internet Anda.',
+                            errors: {}
+                        });
+                        hideLoadingState();
+                    };
+
+                    xhr.ontimeout = function() {
+                        handleError({
+                            message: 'Request timeout. Server membutuhkan waktu terlalu lama. Silakan coba lagi.',
                             errors: {}
                         });
                         hideLoadingState();

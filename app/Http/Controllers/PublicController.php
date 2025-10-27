@@ -161,68 +161,12 @@ class PublicController extends Controller
 
     public function struktur()
     {
-        // Group struktur berdasarkan jabatan dan urutkan berdasarkan hierarki
-        $jabatanHierarki = [
-            'Kepala Dinas',
-            'Sekretaris',
-            'Kepala Subbagian Umum dan Kepegawaian',
-            'Kepala Subbagian Keuangan, Perencanaan, Evaluasi dan Pelaporan',
-            'Kepala Bidang Bina Marga',
-            'Kepala Seksi Pembangunan Jalan dan Jembatan',
-            'Kepala Seksi Pemeliharaan Jalan dan Jembatan',
-            'Kepala Seksi Perencanaan Teknik Jalan dan Jembatan',
-            'Kepala Bidang Cipta Karya',
-            'Kepala Seksi Perumahan dan Permukiman',
-            'Kepala Seksi Bangunan Gedung',
-            'Kepala Seksi Penyehatan Lingkungan Permukiman',
-            'Kepala Bidang Tata Ruang dan Bina Konstruksi',
-            'Kepala Seksi Penataan Ruang',
-            'Kepala Seksi Pengendalian Pemanfaatan Ruang',
-            'Kepala Seksi Bina Konstruksi',
-            'Kepala Bidang Sumber Daya Air',
-            'Kepala Seksi Irigasi dan Rawa',
-            'Kepala Seksi Sungai, Pantai dan Drainase',
-            'Kepala Seksi Bina Operasi dan Pemeliharaan',
-            'Staff IT dan Sistem Informasi',
-            'Staff Administrasi',
-            'Staff Keuangan'
-        ];
-
-        // Ambil semua struktur dan kelompokkan berdasarkan jabatan
-        $allStruktur = Struktur::with('pltStruktur')
-            ->where('status', 'aktif')
+        // Ambil semua struktur organisasi yang aktif
+        $strukturs = Struktur::where('status', 'aktif')
             ->orderBy('urutan', 'asc')
             ->get();
 
-        // Kelompokkan dan urutkan berdasarkan hierarki yang telah ditentukan
-        $strukturByJabatan = collect();
-
-        foreach ($jabatanHierarki as $jabatan) {
-            $anggota = $allStruktur->where('jabatan', $jabatan);
-            if ($anggota->count() > 0) {
-                $strukturByJabatan->push([
-                    'jabatan' => $jabatan,
-                    'anggota' => $anggota->values()
-                ]);
-            }
-        }
-
-        // Tambahkan jabatan yang tidak ada dalam hierarki (jika ada)
-        $jabatanTerdaftar = collect($jabatanHierarki);
-        $jabatanLainnya = $allStruktur->pluck('jabatan')->unique()->diff($jabatanTerdaftar);
-
-        foreach ($jabatanLainnya as $jabatan) {
-            $anggota = $allStruktur->where('jabatan', $jabatan);
-            $strukturByJabatan->push([
-                'jabatan' => $jabatan,
-                'anggota' => $anggota->values()
-            ]);
-        }
-
-        $totalAnggota = $allStruktur->count();
-        $totalJabatan = $strukturByJabatan->count();
-
-        return view('public.profil.struktur', compact('strukturByJabatan', 'totalAnggota', 'totalJabatan'));
+        return view('public.struktur', compact('strukturs'));
     }
 
     public function profil()

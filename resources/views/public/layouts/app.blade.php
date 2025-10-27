@@ -1052,19 +1052,19 @@
                         <i class="bi bi-geo-alt-fill me-2 mt-1"></i>
                         <span>{{ $profil->alamat ?? 'Jl. Raya Kasongan No. 123, Katingan, Kalimantan Tengah' }}</span>
                     </div>
-                    @if ($profil->telepon)
+                    @if (isset($profil) && $profil->telepon)
                         <div class="d-flex mb-2">
                             <i class="bi bi-telephone-fill me-2 mt-1"></i>
                             <span>{{ $profil->telepon }}</span>
                         </div>
                     @endif
-                    @if ($profil->email)
+                    @if (isset($profil) && $profil->email)
                         <div class="d-flex mb-2">
                             <i class="bi bi-envelope-fill me-2 mt-1"></i>
                             <span>{{ $profil->email }}</span>
                         </div>
                     @endif
-                    @if ($profil->jam_operasional)
+                    @if (isset($profil) && $profil->jam_operasional)
                         <div class="d-flex mb-2">
                             <i class="bi bi-clock-fill me-2 mt-1"></i>
                             <span>{{ $profil->jam_operasional }}</span>

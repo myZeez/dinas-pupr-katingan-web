@@ -27,5 +27,11 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Auth\Events\Login::class,
             \App\Listeners\UpdateSessionWithRole::class
         );
+
+        // Share profil data to all views
+        view()->composer('*', function ($view) {
+            $profil = \App\Models\Profil::getOrCreateDefault();
+            $view->with('profil', $profil);
+        });
     }
 }

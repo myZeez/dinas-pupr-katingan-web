@@ -33,251 +33,191 @@
 </section>
 
 <!-- Content Section -->
-<section class="py-4">
-    <div class="container">
+<section class="py-5">
+    <div class="container-fluid px-4">
         @if($strukturs->count() > 0)
-            <!-- Kepala Dinas -->
             @php
-                $kepalaDinas = $strukturs->where('jabatan', 'kepala_dinas')->first();
-                $sekretaris = $strukturs->where('jabatan', 'sekretaris')->first();
+                // Filter struktur berdasarkan jabatan (case-insensitive)
+                $kepalaDinas = $strukturs->filter(function($item) {
+                    return stripos($item->jabatan, 'KEPALA DINAS') !== false;
+                })->first();
+
+                $sekretaris = $strukturs->filter(function($item) {
+                    return stripos($item->jabatan, 'SEKRETARIS') !== false;
+                })->first();
+
+                $kepalaBidang = $strukturs->filter(function($item) {
+                    return stripos($item->jabatan, 'KEPALA BIDANG') !== false ||
+                           stripos($item->jabatan, 'PLT. KEPALA BIDANG') !== false;
+                });
+
+                $kasubag = $strukturs->filter(function($item) {
+                    return stripos($item->jabatan, 'KEPALA SUB BAGIAN') !== false ||
+                           stripos($item->jabatan, 'KASUBAG') !== false;
+                });
+
+                $staff = $strukturs->filter(function($item) {
+                    return stripos($item->jabatan, 'KELOMPOK JABATAN') !== false ||
+                           stripos($item->jabatan, 'STAFF') !== false ||
+                           (stripos($item->jabatan, 'KEPALA') === false &&
+                            stripos($item->jabatan, 'SEKRETARIS') === false);
+                });
             @endphp
 
-            @if($kepalaDinas)
-            <div class="text-center mb-4">
-                <h2 class="fw-bold mb-3 text-primary fs-3">Pimpinan Dinas</h2>
-                <div class="row justify-content-center" data-aos="fade-up">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card border-0 shadow-lg h-100 leader-card">
-                            <div class="card-body text-center p-4">
-                                <div class="position-relative mb-4">
-                                    @if($kepalaDinas->foto)
-                                        <img src="{{ $kepalaDinas->foto_url }}"
-                                             alt="{{ $kepalaDinas->nama }}"
-                                             class="img-fluid rounded-circle mx-auto d-block leader-photo mb-3"
-                                             style="width: 150px; height: 150px; object-fit: cover;"
-                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <div class="default-avatar mx-auto" style="display: none;">
-                                            <i class="bi bi-person fs-1 text-muted"></i>
-                                        </div>
-                                    @else
-                                        <div class="default-avatar mx-auto">
-                                            <i class="bi bi-person fs-1 text-muted"></i>
-                                        </div>
-                                    @endif
-                                </div>
-                                <h4 class="fw-bold text-dark mb-2">{{ $kepalaDinas->nama }}</h4>
-                                <p class="text-primary fw-semibold mb-3">{{ $kepalaDinas->jabatan_label }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    @if($sekretaris)
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card border-0 shadow-lg h-100 leader-card">
-                            <div class="card-body text-center p-4">
-                                <div class="position-relative mb-4">
-                                    @if($sekretaris->foto)
-                                        <img src="{{ $sekretaris->foto_url }}"
-                                             alt="{{ $sekretaris->nama }}"
-                                             class="img-fluid rounded-circle mx-auto d-block leader-photo mb-3"
-                                             style="width: 150px; height: 150px; object-fit: cover;"
-                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <div class="default-avatar mx-auto" style="display: none;">
-                                            <i class="bi bi-person fs-1 text-muted"></i>
-                                        </div>
-                                    @else
-                                        <div class="default-avatar mx-auto">
-                                            <i class="bi bi-person fs-1 text-muted"></i>
-                                        </div>
-                                    @endif
-                                </div>
-                                <h4 class="fw-bold text-dark mb-2">{{ $sekretaris->nama }}</h4>
-                                <p class="text-primary fw-semibold mb-3">{{ $sekretaris->jabatan_label }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-            </div>
-            @endif
+            <!-- Organization Tree Structure -->
+            <div class="org-tree">
 
-            <!-- Filter Berdasarkan Jabatan -->
-            @php
-                $allJabatan = $strukturs->pluck('jabatan_label')->unique()->sort()->values();
-            @endphp
-
-            <div class="mb-4">
-                <h2 class="fw-bold text-center mb-3 text-primary fs-4">Filter Berdasarkan Jabatan</h2>
-                <div class="row justify-content-center">
-                    <div class="col-lg-10">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body p-3">
-                                <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
-                                    <button class="btn btn-primary btn-sm active" onclick="filterJabatan('semua')" id="btn-semua">
-                                        <i class="bi bi-people me-1"></i>Semua ({{ $strukturs->count() }})
-                                    </button>
-                                    @foreach($allJabatan as $jabatan)
-                                        @php
-                                            $count = $strukturs->where('jabatan_label', $jabatan)->count();
-                                        @endphp
-                                        <button class="btn btn-outline-primary btn-sm" onclick="filterJabatan('{{ Str::slug($jabatan) }}')" id="btn-{{ Str::slug($jabatan) }}">
-                                            {{ $jabatan }} ({{ $count }})
-                                        </button>
-                                    @endforeach
-                                </div>
-                                <small class="text-muted d-block text-center fs-7">Klik tombol di atas untuk melihat anggota berdasarkan jabatan</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!-- Struktur Berdasarkan Jabatan (Hidden by default) -->
-            @php
-                // Group by jabatan
-                $jabatanList = $strukturs->groupBy('jabatan')->sortKeys();
-            @endphp
-
-            @foreach($jabatanList as $namaJabatan => $anggotaJabatan)
-            <div class="mb-4 jabatan-section" id="section-{{ Str::slug($namaJabatan) }}">
-                <!-- Header Section dengan Judul dan Deskripsi Jabatan -->
-                <div class="text-center mb-4 jabatan-header-section">
-                    <h1 class="display-6 fw-bold jabatan-title mb-3">{{ $namaJabatan }}</h1>
-
-                    @php
-                        $deskripsiJabatan = '';
-                        switch($namaJabatan) {
-                            case 'Kepala Dinas':
-                                $deskripsiJabatan = 'Kepala Dinas merupakan pimpinan tertinggi yang bertanggung jawab dalam menjalankan tugas pokok dan fungsi Dinas PUPR. Memimpin seluruh kegiatan perencanaan, pelaksanaan, monitoring dan evaluasi program pembangunan infrastruktur untuk meningkatkan kesejahteraan masyarakat.';
-                                break;
-                            case 'Sekretaris Dinas':
-                                $deskripsiJabatan = 'Sekretaris Dinas bertugas menyelenggarakan koordinasi pelaksanaan tugas, pembinaan, dan pemberian dukungan administrasi kepada seluruh unsur organisasi. Mengkoordinasikan perencanaan, keuangan, umum dan kepegawaian untuk mendukung kelancaran operasional dinas.';
-                                break;
-                            case 'Kepala Bidang Bina Marga':
-                                $deskripsiJabatan = 'Bidang Bina Marga bertanggung jawab dalam perencanaan, pelaksanaan, dan pemeliharaan infrastruktur jalan dan jembatan. Mengelola pembangunan jaringan transportasi yang aman, nyaman, dan berkelanjutan untuk mendukung mobilitas masyarakat dan pertumbuhan ekonomi daerah.';
-                                break;
-                            case 'Kepala Bidang Cipta Karya':
-                                $deskripsiJabatan = 'Bidang Cipta Karya menangani pembangunan infrastruktur permukiman meliputi perumahan, air minum, dan sanitasi. Berkomitmen menciptakan lingkungan hunian yang layak, sehat, dan berkelanjutan bagi masyarakat dengan standar kualitas yang tinggi.';
-                                break;
-                            case 'Kepala Bidang Penataan Ruang':
-                                $deskripsiJabatan = 'Bidang Penataan Ruang melaksanakan perencanaan tata ruang wilayah, pengendalian pemanfaatan ruang, dan pengawasan tata ruang. Mengatur pemanfaatan ruang yang optimal untuk keseimbangan pembangunan dan kelestarian lingkungan yang berkelanjutan.';
-                                break;
-                            case 'Kepala Sub Bagian Umum':
-                                $deskripsiJabatan = 'Sub Bagian Umum mengelola administrasi umum, kepegawaian, perlengkapan, dan rumah tangga dinas. Memberikan dukungan administratif dan logistik untuk kelancaran operasional seluruh unit kerja di lingkungan Dinas PUPR dengan pelayanan yang profesional.';
-                                break;
-                            case 'Kepala Seksi Jalan':
-                                $deskripsiJabatan = 'Seksi Jalan bertanggung jawab dalam pembangunan, pemeliharaan, dan rehabilitasi infrastruktur jalan kabupaten. Melaksanakan survei, perencanaan teknis, konstruksi, dan pengawasan mutu untuk memastikan kualitas jalan yang optimal dan tahan lama.';
-                                break;
-                            case 'Staff':
-                                $deskripsiJabatan = 'Staff teknis yang melaksanakan tugas operasional dan administratif untuk mendukung pelaksanaan program kerja di berbagai bidang. Membantu dalam persiapan, pelaksanaan, dan evaluasi kegiatan sesuai dengan bidang tugasnya masing-masing.';
-                                break;
-                            default:
-                                $deskripsiJabatan = 'Melaksanakan tugas dan fungsi sesuai dengan jabatan dalam struktur organisasi Dinas PUPR Kabupaten Katingan untuk mendukung pelayanan publik yang optimal.';
-                        }
-                    @endphp
-
-                    <div class="row justify-content-center">
-                        <div class="col-lg-9 col-xl-8">
-                            <p class="jabatan-description mb-3 fs-6">
-                                Personil yang bertugas pada jabatan {{ $jabatan }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-center align-items-center gap-4 mt-3">
-                                <div class="text-center">
-                                    <h3 class="fw-bold text-primary mb-0">{{ $anggotaJabatan->count() }}</h3>
-                                    <small class="text-muted">{{ $anggotaJabatan->count() > 1 ? 'Personil' : 'Personil' }}</small>
-                                </div>
-                                <div class="stats-divider" style="height: 40px;"></div>
-                                <div class="text-center">
-                                    <h3 class="fw-bold text-success mb-0">{{ $anggotaJabatan->where('is_active', true)->count() }}</h3>
-                                    <small class="text-muted">Aktif</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cards Section -->
-                <div class="row g-3 justify-content-center">
-                    @foreach($anggotaJabatan as $anggota)
-                    <div class="col-xl-4 col-lg-6 col-md-6">
-                        <div class="card border-0 shadow-lg h-100 anggota-card-new">
-                            <div class="card-body text-center p-3">
-                                <!-- Photo Section -->
-                                <div class="position-relative mb-4">
-                                    @if($anggota->foto)
-                                        <img src="{{ $anggota->foto_url }}"
-                                             alt="{{ $anggota->nama }}"
-                                             class="rounded-circle mx-auto d-block staff-photo-new"
-                                             style="width: 100px; height: 100px; object-fit: cover;"
-                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <div class="default-avatar-new mx-auto" style="display: none;">
-                                            <i class="bi bi-person fs-2 text-primary"></i>
-                                        </div>
-                                    @else
-                                        <div class="default-avatar-new mx-auto">
-                                            <i class="bi bi-person fs-2 text-primary"></i>
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <!-- Name and Position -->
-                                <h5 class="fw-bold text-dark mb-2">{{ $anggota->nama }}</h5>
-                                <p class="text-primary fw-semibold mb-3">{{ $anggota->jabatan_label }}</p>
-
-                                <div class="mb-3">
-                                    <span class="badge bg-primary px-2 py-1 rounded-pill fs-7">
-                                        {{ $anggota->jabatan }}
-                                    </span>
-                                </div>
-
-                                @if($anggota->unit_kerja)
-                                    <p class="text-muted small mb-3">
-                                        <i class="bi bi-building me-2"></i>{{ $anggota->unit_kerja }}
-                                    </p>
-                                @endif
-
-                                <!-- Detail Jabatan -->
-                                @if($anggota->keterangan)
-                                    <div class="detail-jabatan-new">
-                                        <h6 class="text-primary fw-bold mb-2">Detail Jabatan</h6>
-                                        <p class="text-muted small mb-0" style="line-height: 1.6;">
-                                            {!! nl2br(e($anggota->keterangan)) !!}
-                                        </p>
+                <!-- Level 1: Kepala Dinas -->
+                @if($kepalaDinas)
+                <div class="tree-level level-1">
+                    <div class="tree-node-wrapper">
+                        <div class="tree-node kepala-dinas">
+                            <div class="node-card">
+                                <div class="node-badge">KEPALA DINAS</div>
+                                @if($kepalaDinas->foto)
+                                    <img src="{{ $kepalaDinas->foto_url }}" alt="{{ $kepalaDinas->nama }}" class="node-avatar">
+                                @else
+                                    <div class="node-avatar-placeholder">
+                                        <i class="bi bi-person"></i>
                                     </div>
                                 @endif
+                                <h5 class="node-name">{{ $kepalaDinas->nama }}</h5>
+                                <p class="node-position">{{ $kepalaDinas->jabatan_label ?? 'Kepala Dinas' }}</p>
+                                @if($kepalaDinas->golongan)
+                                    <span class="node-info">{{ $kepalaDinas->golongan }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="tree-line-down"></div>
+                    </div>
+                </div>
+                @endif
 
-                                <!-- Additional Info -->
-                                <div class="mt-3 pt-3 border-top">
-                                    <div class="row text-center">
-                                        @if($anggota->golongan)
-                                            <div class="col-6">
-                                                <small class="text-muted d-block">Golongan</small>
-                                                <span class="badge bg-info text-white">{{ $anggota->golongan }}</span>
+                <!-- Level 2: Sekretaris -->
+                @if($sekretaris)
+                <div class="tree-level level-2">
+                    <div class="tree-node-wrapper">
+                        <div class="tree-line-up"></div>
+                        <div class="tree-node sekretaris">
+                            <div class="node-card">
+                                <div class="node-badge">SEKRETARIS</div>
+                                @if($sekretaris->foto)
+                                    <img src="{{ $sekretaris->foto_url }}" alt="{{ $sekretaris->nama }}" class="node-avatar">
+                                @else
+                                    <div class="node-avatar-placeholder">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                @endif
+                                <h5 class="node-name">{{ $sekretaris->nama }}</h5>
+                                <p class="node-position">{{ $sekretaris->jabatan_label ?? 'Sekretaris' }}</p>
+                                @if($sekretaris->golongan)
+                                    <span class="node-info">{{ $sekretaris->golongan }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        @if($kepalaBidang->count() > 0)
+                        <div class="tree-line-down"></div>
+                        @endif
+                    </div>
+                </div>
+                @endif
+
+                <!-- Level 3: Kepala Bidang -->
+                @if($kepalaBidang->count() > 0)
+                <div class="tree-level level-3">
+                    <div class="tree-branches">
+                        <div class="branch-line-horizontal"></div>
+                        <div class="tree-nodes-container">
+                            @foreach($kepalaBidang as $index => $bidang)
+                            <div class="tree-node-wrapper branch-item">
+                                <div class="tree-line-up-branch"></div>
+                                <div class="tree-node kepala-bidang">
+                                    <div class="node-card">
+                                        <div class="node-badge">KEPALA BIDANG</div>
+                                        @if($bidang->foto)
+                                            <img src="{{ $bidang->foto_url }}" alt="{{ $bidang->nama }}" class="node-avatar">
+                                        @else
+                                            <div class="node-avatar-placeholder">
+                                                <i class="bi bi-person"></i>
                                             </div>
                                         @endif
-                                        @if($anggota->status)
-                                            <div class="col-6">
-                                                <small class="text-muted d-block">Status</small>
-                                                <span class="badge {{ $anggota->status == 'aktif' ? 'bg-success' : 'bg-warning' }}">
-                                                    {{ ucfirst($anggota->status) }}
-                                                </span>
-                                            </div>
+                                        <h5 class="node-name">{{ $bidang->nama }}</h5>
+                                        <p class="node-position">{{ $bidang->jabatan_label }}</p>
+                                        @if($bidang->golongan)
+                                            <span class="node-info">{{ $bidang->golongan }}</span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                <!-- Level 4: Kasubag (if any) -->
+                @if($kasubag->count() > 0)
+                <div class="tree-level level-4">
+                    <div class="tree-branches">
+                        <div class="branch-line-horizontal"></div>
+                        <div class="tree-nodes-container">
+                            @foreach($kasubag as $subbag)
+                            <div class="tree-node-wrapper branch-item">
+                                <div class="tree-line-up-branch"></div>
+                                <div class="tree-node kasubag">
+                                    <div class="node-card small-card">
+                                        <div class="node-badge small-badge">KASUBAG</div>
+                                        @if($subbag->foto)
+                                            <img src="{{ $subbag->foto_url }}" alt="{{ $subbag->nama }}" class="node-avatar small-avatar">
+                                        @else
+                                            <div class="node-avatar-placeholder small-avatar">
+                                                <i class="bi bi-person"></i>
+                                            </div>
+                                        @endif
+                                        <h6 class="node-name small-name">{{ $subbag->nama }}</h6>
+                                        <p class="node-position small-position">{{ $subbag->jabatan_label }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+            </div>
+
+            <!-- Staff Section (Grid View) -->
+            @if($staff->count() > 0)
+            <div class="staff-section mt-5">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-primary">
+                        <i class="bi bi-people-fill me-2"></i>Tim Staff
+                    </h3>
+                    <p class="text-muted">Personil pendukung operasional</p>
+                </div>
+                <div class="row g-3">
+                    @foreach($staff as $anggota)
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="staff-card">
+                            @if($anggota->foto)
+                                <img src="{{ $anggota->foto_url }}" alt="{{ $anggota->nama }}" class="staff-avatar">
+                            @else
+                                <div class="staff-avatar-placeholder">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            @endif
+                            <h6 class="staff-name">{{ $anggota->nama }}</h6>
+                            <p class="staff-position">{{ $anggota->jabatan_label ?? 'Staff' }}</p>
+                            @if($anggota->unit_kerja)
+                                <small class="staff-unit">{{ $anggota->unit_kerja }}</small>
+                            @endif
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
-            @endforeach
+            @endif
         @else
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">
@@ -292,239 +232,434 @@
 </section>
 
 <script>
-function filterJabatan(jabatan) {
-    // Reset semua tombol
-    document.querySelectorAll('.btn').forEach(btn => {
-        if (btn.id.startsWith('btn-')) {
-            btn.classList.remove('btn-primary', 'active');
-            btn.classList.add('btn-outline-primary');
-        }
+// Animasi untuk node cards
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate nodes on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.tree-node').forEach(node => {
+        node.style.opacity = '0';
+        node.style.transform = 'translateY(20px)';
+        node.style.transition = 'all 0.6s ease';
+        observer.observe(node);
     });
 
-    // Aktifkan tombol yang dipilih
-    const activeBtn = document.getElementById('btn-' + jabatan);
-    if (activeBtn) {
-        activeBtn.classList.remove('btn-outline-primary');
-        activeBtn.classList.add('btn-primary', 'active');
-    }
-
-    if (jabatan === 'semua') {
-        // Tampilkan semua section jabatan
-        document.querySelectorAll('.jabatan-section').forEach(section => {
-            section.style.display = 'block';
-        });
-    } else {
-        // Sembunyikan semua section jabatan
-        document.querySelectorAll('.jabatan-section').forEach(section => {
-            section.style.display = 'none';
-        });
-
-        // Tampilkan section jabatan yang dipilih
-        const targetSection = document.getElementById('section-' + jabatan);
-        if (targetSection) {
-            targetSection.style.display = 'block';
-            // Scroll ke section yang dipilih
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
-}
-
-// Animasi untuk card hover
-document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.anggota-card');
-
+    // Hover effects for cards
+    const cards = document.querySelectorAll('.node-card, .staff-card');
     cards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.transition = 'transform 0.3s ease';
+            this.style.transform = 'translateY(-5px) scale(1.02)';
         });
 
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
+            this.style.transform = 'translateY(0) scale(1)';
         });
     });
 });
 </script>
 
 <style>
-/* Custom utility class for smaller text */
-.fs-7 {
-    font-size: 0.85rem !important;
+/* Organization Tree Styles */
+.org-tree {
+    padding: 3rem 0;
+    background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
 }
 
-.anggota-card {
-    transition: all 0.3s ease;
-    border-radius: 15px;
+.tree-level {
+    margin: 0 auto;
+    padding: 1.5rem 0;
 }
 
-.anggota-card:hover {
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+.tree-node-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
-.staff-photo {
-    border: 3px solid #e9ecef;
-    transition: border-color 0.3s ease;
-}
-
-.anggota-card:hover .staff-photo {
-    border-color: var(--bs-primary);
-}
-
-.default-avatar-small, .default-avatar-medium {
-    border: 3px solid #e9ecef;
-    transition: border-color 0.3s ease;
-}
-
-.anggota-card:hover .default-avatar-small,
-.anggota-card:hover .default-avatar-medium {
-    border-color: var(--bs-primary);
-}
-
-.btn {
-    transition: all 0.3s ease;
-    border-radius: 25px;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-}
-
-.leader-card {
-    transition: all 0.3s ease;
-}
-
-.leader-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
-}
-
-.leader-photo {
-    border: 4px solid #ffffff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* New card design based on the provided mockup */
-.anggota-card-new {
-    transition: all 0.3s ease;
+/* Node Card Styles */
+.node-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
     border-radius: 20px;
-    border: 1px solid #e3f2fd;
-    overflow: hidden;
-    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-}
-
-.anggota-card-new:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(33, 150, 243, 0.12) !important;
-    border-color: #2196f3;
-}
-
-.staff-photo-new {
-    border: 4px solid #e3f2fd;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 280px;
+    max-width: 320px;
+    border: 2px solid #e3f2fd;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
 }
 
-.anggota-card-new:hover .staff-photo-new {
+.node-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2196f3 0%, #1976d2 100%);
+}
+
+.node-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(33, 150, 243, 0.2);
     border-color: #2196f3;
-    box-shadow: 0 10px 25px rgba(33, 150, 243, 0.25);
 }
 
-.default-avatar-new {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+.node-badge {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    display: inline-block;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.node-avatar {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #2196f3;
+    margin: 0 auto 1rem;
+    display: block;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.node-avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 4px solid #e3f2fd;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
+    border: 4px solid #2196f3;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
 }
 
-.anggota-card-new:hover .default-avatar-new {
-    border-color: #2196f3;
-    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+.node-avatar-placeholder i {
+    font-size: 3rem;
+    color: #2196f3;
 }
 
-.anggota-card-new:hover .default-avatar-new i {
-    color: white !important;
-}
-
-.detail-jabatan-new {
-    background: linear-gradient(135deg, #f3f8ff 0%, #e8f2ff 100%);
-    border-radius: 15px;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-left: 4px solid #2196f3;
-    text-align: left;
-}
-
-.detail-jabatan-new h6 {
-    color: #1976d2 !important;
-    font-size: 0.9rem;
+.node-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a237e;
     margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    line-height: 1.3;
 }
 
-.detail-jabatan-new p {
-    color: #546e7a !important;
+.node-position {
+    font-size: 0.9rem;
+    color: #2196f3;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.node-info {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #1976d2;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Small card variations */
+.small-card {
+    min-width: 220px;
+    max-width: 240px;
+    padding: 1.5rem 1rem;
+}
+
+.small-badge {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.8rem;
+}
+
+.small-avatar,
+.node-avatar.small-avatar,
+.node-avatar-placeholder.small-avatar {
+    width: 80px;
+    height: 80px;
+    border-width: 3px;
+}
+
+.small-avatar i {
+    font-size: 2rem !important;
+}
+
+.small-name {
+    font-size: 0.95rem;
+}
+
+.small-position {
+    font-size: 0.8rem;
+}
+
+/* Tree Lines */
+.tree-line-down,
+.tree-line-up {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, #2196f3 0%, #1976d2 100%);
+    position: relative;
+}
+
+.tree-line-down::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: #2196f3;
+    border-radius: 50%;
+}
+
+.tree-line-up::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: #2196f3;
+    border-radius: 50%;
+}
+
+/* Branches for multiple nodes */
+.tree-branches {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.branch-line-horizontal {
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, #2196f3 0%, #1976d2 50%, #2196f3 100%);
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.tree-nodes-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+}
+
+.branch-item {
+    flex: 0 1 auto;
+}
+
+.tree-line-up-branch {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, #2196f3 0%, #1976d2 100%);
+    margin: 0 auto 1rem;
+    position: relative;
+}
+
+.tree-line-up-branch::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: #2196f3;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+}
+
+/* Staff Section */
+.staff-section {
+    padding: 2rem 0;
+}
+
+.staff-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e3f2fd;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.staff-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(33, 150, 243, 0.15);
+    border-color: #2196f3;
+}
+
+.staff-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e3f2fd;
+    margin: 0 auto 1rem;
+    display: block;
+}
+
+.staff-avatar-placeholder {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    border: 3px solid #2196f3;
+}
+
+.staff-avatar-placeholder i {
+    font-size: 2.5rem;
+    color: #2196f3;
+}
+
+.staff-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a237e;
+    margin-bottom: 0.4rem;
+}
+
+.staff-position {
     font-size: 0.85rem;
-    line-height: 1.6;
+    color: #2196f3;
+    margin-bottom: 0.5rem;
 }
 
-/* Responsive adjustments for 14" laptops (1366x768 to 1920x1080) */
-@media (min-width: 1200px) and (max-width: 1600px) {
-    .jabatan-title {
-        font-size: 2.5rem !important;
+.staff-unit {
+    color: #666;
+    font-size: 0.75rem;
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .tree-nodes-container {
+        gap: 1.5rem;
     }
 
-    .jabatan-description {
-        font-size: 0.95rem !important;
-        line-height: 1.5;
-    }
-
-    .anggota-card-new {
-        margin-bottom: 1rem;
-    }
-
-    .staff-photo-new,
-    .default-avatar-new {
-        width: 90px !important;
-        height: 90px !important;
-    }
-
-    .detail-jabatan-new {
-        padding: 0.75rem;
-        margin: 0.75rem 0;
-    }
-
-    .card-body {
-        padding: 1rem !important;
+    .node-card {
+        min-width: 240px;
+        max-width: 280px;
     }
 }
 
-/* Specific optimization for 14" laptops at 1080p */
-@media (min-width: 1366px) and (max-width: 1440px) {
-    .display-6 {
-        font-size: 2.2rem !important;
+@media (max-width: 768px) {
+    .org-tree {
+        padding: 2rem 0;
     }
 
-    .container {
-        max-width: 1200px;
+    .tree-nodes-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
     }
 
-    .col-xl-4 {
-        flex: 0 0 auto;
-        width: 33.333333%;
+    .branch-line-horizontal {
+        display: none;
+    }
+
+    .tree-line-up-branch {
+        height: 20px;
+    }
+
+    .node-card {
+        min-width: 260px;
+        max-width: 300px;
+    }
+
+    .branch-item {
+        width: 100%;
+        max-width: 320px;
     }
 }
 
-/* Additional responsive font sizes */
-@media (max-width: 1439px) {
-    .fs-7 {
-        font-size: 0.8rem !important;
+@media (max-width: 576px) {
+    .node-card {
+        min-width: 100%;
+        padding: 1.5rem 1rem;
     }
+
+    .node-avatar,
+    .node-avatar-placeholder {
+        width: 100px;
+        height: 100px;
+    }
+
+    .staff-card {
+        padding: 1rem;
+    }
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tree-node {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Level specific animations */
+.level-1 .tree-node {
+    animation-delay: 0.1s;
+}
+
+.level-2 .tree-node {
+    animation-delay: 0.3s;
+}
+
+.level-3 .tree-node {
+    animation-delay: 0.5s;
+}
+
+.level-4 .tree-node {
+    animation-delay: 0.7s;
 }
 </style>
 
