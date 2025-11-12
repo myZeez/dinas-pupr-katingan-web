@@ -1,15 +1,9 @@
-{{-- Global Delete Confirmation Component --}}
-<script>
-// Global function untuk konfirmasi delete dengan GIF
-function confirmDelete(message = 'Apakah Anda yakin ingin menghapus data ini?', type = 'delete') {
-    return new Promise((resolve) => {
-        // Buat modal konfirmasi dengan GIF
-        const iconMap = {
-            'delete': '{{ asset("Icon/Delete.gif") }}',
-            'warning': '{{ asset("Icon/loading.gif") }}',
-            'info': '{{ asset("Icon/Done.gif") }}',
-            'success': '{{ asset("Icon/Succes.gif") }}'
-        };
+{{-- Global Delete Confirmation Component - Redirected to CSS Version --}}{{-- Global Delete Confirmation Component - Redirected to CSS Version --}}
+
+{{-- This file is kept for backward compatibility but now uses Pure CSS icons --}}{{-- This file is kept for backward compatibility but now uses Pure CSS icons --}}
+
+@include('components.delete-confirmation-css')@include('components.delete-confirmation-css')
+
 
         const modalHtml = `
             <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
@@ -39,10 +33,10 @@ function confirmDelete(message = 'Apakah Anda yakin ingin menghapus data ini?', 
 
         // Hapus modal yang ada jika ada
         $('#confirmDeleteModal').remove();
-        
+
         // Tambahkan modal ke body
         $('body').append(modalHtml);
-        
+
         // Show modal
         const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
         modal.show();
@@ -66,17 +60,17 @@ function attachDeleteConfirmation() {
     // Handle form dengan class delete-form
     $(document).on('submit', '.delete-form', async function(e) {
         e.preventDefault();
-        
+
         const form = this;
-        
+
         // Skip if already confirmed
         if (form.dataset.deleteConfirmed === 'true') {
             return; // Let the form submit naturally with global loading
         }
-        
+
         const message = $(form).data('message') || 'Apakah Anda yakin ingin menghapus data ini?';
         const confirmed = await confirmDelete(message);
-        
+
         if (confirmed) {
             // Set confirmed flag and submit
             form.dataset.deleteConfirmed = 'true';
@@ -87,11 +81,11 @@ function attachDeleteConfirmation() {
     // Handle tombol dengan class delete-btn
     $(document).on('click', '.delete-btn', async function(e) {
         e.preventDefault();
-        
+
         const btn = this;
         const message = $(btn).data('message') || 'Apakah Anda yakin ingin menghapus data ini?';
         const confirmed = await confirmDelete(message);
-        
+
         if (confirmed) {
             const form = $(btn).closest('form');
             if (form.length) {
@@ -129,7 +123,7 @@ function confirmAction(message, type = 'warning', confirmText = 'Ya, Lanjutkan')
         // Define simpler color scheme for white theme - hanya border tanpa fill
         const iconBorderMap = {
             'warning': '#ffc107',
-            'info': '#17a2b8', 
+            'info': '#17a2b8',
             'success': '#28a745',
             'delete': '#dc3545'
         };
@@ -169,15 +163,15 @@ function confirmAction(message, type = 'warning', confirmText = 'Ya, Lanjutkan')
 
         $('#confirmActionModal').remove();
         $('body').append(modalHtml);
-        
+
         const modal = new bootstrap.Modal(document.getElementById('confirmActionModal'));
         modal.show();
-        
+
         $('#confirmActionBtn').on('click', function() {
             modal.hide();
             resolve(true);
         });
-        
+
         $('#confirmActionModal').on('hidden.bs.modal', function() {
             $(this).remove();
             resolve(false);
@@ -188,7 +182,7 @@ function confirmAction(message, type = 'warning', confirmText = 'Ya, Lanjutkan')
 // Function untuk konfirmasi batch delete
 async function confirmBatchDelete(count) {
     const message = `Akan menghapus <strong>${count} item</strong> yang dipilih.<br><small class="text-warning">Tindakan ini tidak dapat dibatalkan!</small>`;
-    
+
     return new Promise((resolve) => {
         const modalHtml = `
             <div class="modal fade" id="confirmBatchModal" tabindex="-1" aria-hidden="true">
@@ -218,15 +212,15 @@ async function confirmBatchDelete(count) {
 
         $('#confirmBatchModal').remove();
         $('body').append(modalHtml);
-        
+
         const modal = new bootstrap.Modal(document.getElementById('confirmBatchModal'));
         modal.show();
-        
+
         $('#confirmBatchBtn').on('click', function() {
             modal.hide();
             resolve(true);
         });
-        
+
         $('#confirmBatchModal').on('hidden.bs.modal', function() {
             $(this).remove();
             resolve(false);
@@ -241,7 +235,7 @@ function showLoadingOverlay(message = 'Memproses data...') {
     if (existingOverlay) {
         existingOverlay.remove();
     }
-    
+
     // Buat loading overlay
     const overlay = document.createElement('div');
     overlay.id = 'loadingOverlay';
@@ -259,7 +253,7 @@ function showLoadingOverlay(message = 'Memproses data...') {
         z-index: 9999;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     `;
-    
+
     overlay.innerHTML = `
         <div style="
             background: white;
@@ -275,9 +269,9 @@ function showLoadingOverlay(message = 'Memproses data...') {
             <p style="margin: 0; color: #666; font-size: 14px;">${message}</p>
         </div>
     `;
-    
+
     document.body.appendChild(overlay);
-    
+
     // Auto hide setelah 15 detik sebagai fallback
     setTimeout(() => {
         if (document.getElementById('loadingOverlay')) {
@@ -351,16 +345,16 @@ function hideLoadingOverlay() {
     .modal-dialog {
         margin: 1rem;
     }
-    
+
     .modal-body {
         padding: 2rem !important;
     }
-    
+
     .icon-container {
         width: 90px !important;
         height: 90px !important;
     }
-    
+
     .icon-container img {
         width: 50px !important;
         height: 50px !important;

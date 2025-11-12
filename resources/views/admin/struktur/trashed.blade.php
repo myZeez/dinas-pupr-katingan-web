@@ -49,9 +49,9 @@
                                         <td>{{ $struktur->urutan }}</td>
                                         <td>
                                             @if($struktur->foto)
-                                                <img src="{{ asset('storage/' . $struktur->foto) }}" 
-                                                     alt="Foto {{ $struktur->nama }}" 
-                                                     class="img-thumbnail" 
+                                                <img src="{{ asset('storage/' . $struktur->foto) }}"
+                                                     alt="Foto {{ $struktur->nama }}"
+                                                     class="img-thumbnail"
                                                      style="max-height: 50px">
                                             @else
                                                 <span class="text-muted">No Photo</span>
@@ -72,27 +72,27 @@
                                         <td>{{ $struktur->deleted_at->format('d/m/Y H:i') }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <form action="{{ route('admin.struktur.restore', $struktur->id) }}" 
-                                                      method="POST" 
+                                                <form action="{{ route('admin.struktur.restore', $struktur->id) }}"
+                                                      method="POST"
                                                       class="d-inline">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" 
-                                                            class="btn btn-sm btn-outline-success" 
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-success"
                                                             style="border-radius: 6px 0 0 6px;"
                                                             title="Pulihkan"
                                                             data-confirm-status data-status="dipulihkan" data-item-name="struktur">
                                                         <i class="bi bi-arrow-clockwise"></i>
                                                     </button>
                                                 </form>
-                                                <form action="{{ route('admin.struktur.force-delete', $struktur->id) }}" 
-                                                      method="POST" 
+                                                <form action="{{ route('admin.struktur.force-delete', $struktur->id) }}"
+                                                      method="POST"
                                                       class="d-inline delete-form"
                                                       data-message="Apakah Anda yakin ingin menghapus PERMANEN struktur {{ $struktur->nama }}? Tindakan ini tidak dapat dibatalkan!">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" 
-                                                            class="btn btn-sm btn-outline-danger" 
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger"
                                                             style="border-radius: 0 6px 6px 0;"
                                                             title="Hapus Permanen">
                                                         <i class="bi bi-trash3"></i>
@@ -128,13 +128,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const form = this.closest('form');
             const itemName = this.getAttribute('data-item-name') || 'item';
-            
+
             const confirmed = await confirmAction(
                 `Apakah Anda yakin ingin memulihkan ${itemName}?`,
                 'success',
                 'Ya, Restore'
             );
-            
+
             if (confirmed) {
                 // Tampilkan loading
                 showLoadingOverlay('Memproses restore data...');
@@ -149,13 +149,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const form = this.closest('form');
             const itemName = this.getAttribute('data-item-name') || 'item';
-            
+
             const confirmed = await confirmAction(
                 `PERINGATAN: ${itemName} akan dihapus PERMANEN dan tidak dapat dikembalikan!`,
                 'delete',
                 'Ya, Hapus Permanen'
             );
-            
+
             if (confirmed) {
                 // Tampilkan loading
                 showLoadingOverlay('Menghapus data secara permanen...');
@@ -172,7 +172,7 @@ function showLoadingOverlay(message) {
     if (existingOverlay) {
         existingOverlay.remove();
     }
-    
+
     // Buat loading overlay
     const overlay = document.createElement('div');
     overlay.id = 'loadingOverlay';
@@ -190,7 +190,7 @@ function showLoadingOverlay(message) {
         z-index: 9999;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     `;
-    
+
     overlay.innerHTML = `
         <div style="
             background: white;
@@ -201,14 +201,54 @@ function showLoadingOverlay(message) {
             max-width: 300px;
             width: 90%;
         ">
-            <img src="{{ asset('Icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px; margin-bottom: 1rem;">
+            <div class="css-dots-loader" style="margin: 0 auto 1rem;">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
             <h5 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 600;">Memproses...</h5>
             <p style="margin: 0; color: #666; font-size: 14px;">${message}</p>
+            <style>
+                .css-dots-loader {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 8px;
+                    height: 64px;
+                }
+                .css-dots-loader .dot {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    background: #5b72ee;
+                    animation: dotPulse 1.4s infinite ease-in-out both;
+                }
+                .css-dots-loader .dot:nth-child(1) {
+                    animation-delay: -0.32s;
+                }
+                .css-dots-loader .dot:nth-child(2) {
+                    animation-delay: -0.16s;
+                    background: #00d4aa;
+                }
+                .css-dots-loader .dot:nth-child(3) {
+                    background: #f4b400;
+                }
+                @keyframes dotPulse {
+                    0%, 80%, 100% {
+                        transform: scale(0.6);
+                        opacity: 0.5;
+                    }
+                    40% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+            </style>
         </div>
     `;
-    
+
     document.body.appendChild(overlay);
-    
+
     // Auto hide setelah 10 detik sebagai fallback
     setTimeout(() => {
         if (document.getElementById('loadingOverlay')) {

@@ -1169,8 +1169,8 @@
     {{-- Include GIF Notifications Component --}}
     @include('components.gif-notifications')
 
-    {{-- Include Delete Confirmation Component --}}
-    @include('components.delete-confirmation')
+    {{-- Include Delete Confirmation Component - Pure CSS Version --}}
+    @include('components.delete-confirmation-css')
 
     {{-- Include Global Loading Component --}}
     @include('components.global-loading')

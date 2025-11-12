@@ -68,11 +68,392 @@
             line-height: 1.6;
             color: var(--text-dark);
             font-size: 1rem !important;
+            padding-top: 0;
         }
 
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: var(--primary-color) !important;
+        /* Main content padding for non-hero pages */
+        main > section:first-child:not(.hero-section),
+        main > .container:first-child {
+            padding-top: 100px;
+        }
+
+        @media (max-width: 991px) {
+            main > section:first-child:not(.hero-section),
+            main > .container:first-child {
+                padding-top: 80px;
+            }
+
+            /* Mobile Floating Header - Global Style */
+            section[class*="hero"],
+            section.py-5.text-white {
+                position: relative;
+                border-radius: 0 0 30px 30px !important;
+                margin: 0 !important;
+                padding: 90px 20px 25px 20px !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+                animation: floatHeaderSlide 0.5s ease-out;
+            }
+
+            section[class*="hero"] h1,
+            section.py-5.text-white h1 {
+                font-size: 1.75rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            section[class*="hero"] .lead,
+            section.py-5.text-white .lead {
+                font-size: 0.9rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            section[class*="hero"] .badge,
+            section.py-5.text-white .badge {
+                font-size: 0.75rem !important;
+                padding: 0.35rem 0.7rem !important;
+            }
+
+            @keyframes floatHeaderSlide {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            section[class*="hero"],
+            section.py-5.text-white {
+                margin: 0 !important;
+                padding: 85px 15px 22px 15px !important;
+                border-radius: 0 0 25px 25px !important;
+            }
+
+            section[class*="hero"] h1,
+            section.py-5.text-white h1 {
+                font-size: 1.5rem !important;
+            }
+
+            section[class*="hero"] .lead,
+            section.py-5.text-white .lead {
+                font-size: 0.85rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section[class*="hero"],
+            section.py-5.text-white {
+                margin: 0 !important;
+                padding: 80px 12px 18px 12px !important;
+                border-radius: 0 0 20px 20px !important;
+            }
+
+            section[class*="hero"] h1,
+            section.py-5.text-white h1 {
+                font-size: 1.35rem !important;
+            }
+
+            section[class*="hero"] .lead,
+            section.py-5.text-white .lead {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        /* =================================================================== */
+        /* FLOATING NAVIGATION - MODERN GLASSMORPHISM DESIGN                  */
+        /* =================================================================== */
+
+        .floating-navbar {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1320px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
+            z-index: 1030;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0;
+        }
+
+        .floating-navbar.scrolled {
+            top: 10px;
+            width: calc(100% - 30px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 30px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+            transition: transform 0.3s ease;
+            z-index: 1031;
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.02);
+        }
+
+        .brand-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 280px;
+        }
+
+        .nav-toggler {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1031;
+            transition: all 0.3s ease;
+        }
+
+        .toggler-icon {
+            width: 28px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-toggler.active .toggler-icon:nth-child(1) {
+            transform: rotate(45deg) translateY(11px);
+            background: var(--primary-color);
+        }
+
+        .nav-toggler.active .toggler-icon:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .nav-toggler.active .toggler-icon:nth-child(3) {
+            transform: rotate(-45deg) translateY(-11px);
+            background: var(--primary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), #FFB300);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            border-radius: 12px;
+        }
+
+        .nav-link:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.15);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), #FFB300);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 180, 0, 0.3);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+        }
+
+        /* =================================================================== */
+        /* RESPONSIVE NAVIGATION STYLES                                       */
+        /* =================================================================== */
+
+        @media (max-width: 1200px) {
+            .floating-navbar {
+                width: calc(100% - 30px);
+            }
+
+            .nav-link {
+                padding: 8px 14px;
+                font-size: 0.9rem;
+            }
+
+            .brand-text {
+                font-size: 1rem;
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            body {
+                padding-top: 0;
+                padding-bottom: 0 !important;
+            }
+
+            .floating-navbar {
+                display: none;
+            }
+
+            .nav-toggler {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 300px;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                padding: 100px 30px 30px;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-list {
+                flex-direction: column;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                width: 100%;
+                justify-content: flex-start;
+                padding: 14px 20px;
+                font-size: 1rem;
+            }
+
+            .nav-link i {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .floating-navbar {
+                top: 10px;
+                width: calc(100% - 20px);
+            }
+
+            .nav-wrapper {
+                padding: 10px 20px;
+            }
+
+            .brand-text {
+                font-size: 0.9rem;
+                max-width: 150px;
+            }
+
+            .nav-menu {
+                width: 280px;
+                padding: 90px 25px 25px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-menu {
+                width: 260px;
+                padding: 80px 20px 20px;
+            }
+
+            .brand-text {
+                font-size: 0.85rem;
+                max-width: 130px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .nav-menu {
+                width: 240px;
+            }
+
+            .brand-text {
+                font-size: 0.8rem;
+                max-width: 110px;
+            }
         }
 
         .btn-primary {
@@ -165,30 +546,6 @@
             border-color: #dee2e6 !important;
         }
 
-        .navbar-nav .nav-link {
-            font-size: 1rem !important;
-            padding: 0.5rem 1rem !important;
-            font-weight: 500;
-            color: var(--text-dark) !important;
-            transition: color 0.3s ease;
-        }
-
-        .navbar-brand {
-            font-size: 1.25rem !important;
-            font-weight: 700;
-            color: var(--secondary-color) !important;
-        }
-
-        .navbar-toggler {
-            font-size: 1rem !important;
-            padding: 0.25rem 0.5rem !important;
-        }
-
-        /* Ensure consistent sizing across all navigation elements */
-        .nav-item {
-            font-size: 1rem !important;
-        }
-
         /* Fix any oversized elements */
         .btn {
             font-size: 1rem !important;
@@ -213,12 +570,8 @@
         }
 
         @media (max-width: 991px) {
-            .navbar {
-                display: none !important;
-            }
-
             body {
-                padding-bottom: 85px !important;
+                padding-bottom: 0 !important;
             }
 
             .hero-section {
@@ -316,7 +669,7 @@
             }
 
             body {
-                padding-bottom: 70px !important;
+                padding-bottom: 20px !important;
             }
 
             .display-4 {
@@ -568,93 +921,6 @@
         }
 
         /* =================================================================== */
-        /* BOTTOM NAVIGATION STYLES - MOBILE & TABLET                         */
-        /* =================================================================== */
-
-        .public-bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 20px);
-            max-width: 520px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            z-index: 1040;
-            padding: 8px;
-        }
-
-        .public-bottom-nav-list {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .public-bottom-nav-item {
-            flex: 1;
-        }
-
-        .public-bottom-nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            padding: 8px 4px;
-            color: #666;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-            font-size: 0.65rem;
-            font-weight: 600;
-            border-radius: 16px;
-            position: relative;
-            min-height: 56px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .public-bottom-nav-link:hover,
-        .public-bottom-nav-link.active {
-            color: var(--primary-color);
-            text-decoration: none;
-            background: linear-gradient(135deg, rgba(244, 180, 0, 0.1), rgba(244, 180, 0, 0.05));
-            transform: translateY(-2px);
-        }
-
-        .public-bottom-nav-icon {
-            font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-            margin-bottom: 2px;
-        }
-
-        .public-bottom-nav-link:hover .public-bottom-nav-icon,
-        .public-bottom-nav-link.active .public-bottom-nav-icon {
-            transform: scale(1.2);
-            filter: drop-shadow(0 2px 8px rgba(244, 180, 0, 0.4));
-        }
-
-        .public-bottom-nav-link.active::before {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), #FFB300);
-            border-radius: 2px;
-            box-shadow: 0 1px 3px rgba(244, 180, 0, 0.3);
-        }
-
-        /* =================================================================== */
         /* RESPONSIVE BREAKPOINTS - MOBILE FIRST APPROACH                     */
         /* =================================================================== */
 
@@ -665,7 +931,7 @@
             }
 
             body {
-                padding-bottom: 85px !important;
+                padding-bottom: 0px !important;
                 overflow-x: hidden;
             }
 
@@ -699,7 +965,7 @@
             }
 
             body {
-                padding-bottom: 75px !important;
+                padding-bottom: 20px !important;
             }
 
             .section-title {
@@ -734,7 +1000,7 @@
             }
 
             body {
-                padding-bottom: 70px !important;
+                padding-bottom: 20px !important;
             }
 
             .display-4 {
@@ -770,7 +1036,7 @@
             }
 
             body {
-                padding-bottom: 65px !important;
+                padding-bottom: 20px !important;
             }
         }
 
@@ -793,7 +1059,7 @@
             }
 
             body {
-                padding-bottom: 60px !important;
+                padding-bottom: 20px !important;
             }
         }
 
@@ -821,7 +1087,7 @@
             }
 
             body {
-                padding-bottom: 55px !important;
+                padding-bottom: 20px !important;
             }
 
             .display-4 {
@@ -846,7 +1112,7 @@
         /* ===== LANDSCAPE ORIENTATION: Mobile/Tablet ===== */
         @media (max-width: 991px) and (orientation: landscape) {
             body {
-                padding-bottom: 60px !important;
+                padding-bottom: 20px !important;
             }
 
             .public-bottom-nav {
@@ -941,49 +1207,74 @@
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <!-- Floating Navigation -->
+    <nav class="floating-navbar" id="floatingNav">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ route('public.home') }}">
-                @include('components.logo', ['style' => 'height: 40px; width: auto; margin-right: 10px;'])
-                <span>{{ $profil->nama_instansi ?? 'Dinas PUPR' }}</span>
-            </a>
+            <div class="nav-wrapper">
+                <a class="nav-brand" href="{{ route('public.home') }}">
+                    @include('components.logo', ['style' => 'height: 45px; width: auto; margin-right: 12px;'])
+                    <span class="brand-text">{{ $profil->nama_instansi ?? 'Dinas PUPR' }}</span>
+                </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <button class="nav-toggler" type="button" id="navToggler">
+                    <span class="toggler-icon"></span>
+                    <span class="toggler-icon"></span>
+                    <span class="toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('public.home') ? 'active' : '' }}"
-                            href="{{ route('public.home') }}">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('public.struktur') ? 'active' : '' }}"
-                            href="{{ route('public.struktur') }}">Struktur</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('public.program*') ? 'active' : '' }}"
-                            href="{{ route('public.program') }}">Program</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('public.berita*') ? 'active' : '' }}"
-                            href="{{ route('public.berita') }}">Berita</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('public.galeri*') ? 'active' : '' }}"
-                            href="{{ route('public.galeri') }}">Galeri</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('public.unduhan*') ? 'active' : '' }}"
-                            href="{{ route('public.unduhan') }}">Unduhan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('public.kontak') ? 'active' : '' }}"
-                            href="{{ route('public.kontak') }}">Kontak</a>
-                    </li>
-                </ul>
+                <div class="nav-menu" id="navMenu">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('public.home') ? 'active' : '' }}"
+                                href="{{ route('public.home') }}">
+                                <i class="bi bi-house-door-fill"></i>
+                                <span>Beranda</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('public.struktur') ? 'active' : '' }}"
+                                href="{{ route('public.struktur') }}">
+                                <i class="bi bi-diagram-3-fill"></i>
+                                <span>Struktur</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('public.program*') ? 'active' : '' }}"
+                                href="{{ route('public.program') }}">
+                                <i class="bi bi-briefcase-fill"></i>
+                                <span>Program</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('public.berita*') ? 'active' : '' }}"
+                                href="{{ route('public.berita') }}">
+                                <i class="bi bi-newspaper"></i>
+                                <span>Berita</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('public.galeri*') ? 'active' : '' }}"
+                                href="{{ route('public.galeri') }}">
+                                <i class="bi bi-images"></i>
+                                <span>Galeri</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('public.unduhan*') ? 'active' : '' }}"
+                                href="{{ route('public.unduhan') }}">
+                                <i class="bi bi-download"></i>
+                                <span>Unduhan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::routeIs('public.kontak') ? 'active' : '' }}"
+                                href="{{ route('public.kontak') }}">
+                                <i class="bi bi-telephone-fill"></i>
+                                <span>Kontak</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -1188,6 +1479,84 @@
         AOS.init({
             duration: 1000,
             once: true
+        });
+
+        // =================================================================
+        // FLOATING NAVIGATION CONTROLS
+        // =================================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingNav = document.getElementById('floatingNav');
+            const navToggler = document.getElementById('navToggler');
+            const navMenu = document.getElementById('navMenu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Scroll effect for navbar
+            let lastScroll = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+
+                if (currentScroll > 100) {
+                    floatingNav.classList.add('scrolled');
+                } else {
+                    floatingNav.classList.remove('scrolled');
+                }
+
+                // Hide navbar on scroll down, show on scroll up
+                if (currentScroll > lastScroll && currentScroll > 300) {
+                    floatingNav.style.transform = 'translateX(-50%) translateY(-120%)';
+                } else {
+                    floatingNav.style.transform = 'translateX(-50%) translateY(0)';
+                }
+
+                lastScroll = currentScroll;
+            });
+
+            // Mobile menu toggle
+            if (navToggler && navMenu) {
+                navToggler.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+                });
+
+                // Close menu when clicking nav links
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        navToggler.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideNav = floatingNav.contains(event.target);
+                    if (!isClickInsideNav && navMenu.classList.contains('active')) {
+                        navToggler.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && href.length > 1) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            const offsetTop = target.offsetTop - 100;
+                            window.scrollTo({
+                                top: offsetTop,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
         });
 
         // Video background controls

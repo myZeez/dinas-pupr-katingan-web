@@ -5,8 +5,8 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="py-4 py-md-5 text-white"
-        style="background: linear-gradient(135deg, var(--secondary-color) 0%, #001f5c 100%);">
+    <section class="py-5 text-white"
+        style="background: linear-gradient(135deg, var(--secondary-color) 0%, #001f5c 100%); margin-top: 0; padding-top: 120px !important;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8" data-aos="fade-right">
@@ -291,24 +291,6 @@
             </div>
         </div>
     @endforeach
-
-    <!-- CTA Section -->
-    <section class="py-5 text-white" style="background: linear-gradient(135deg, var(--primary-color) 0%, #e6a200 100%);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8" data-aos="fade-right">
-                    <h3 class="fw-bold mb-3">Punya Usulan Program?</h3>
-                    <p class="mb-0">Sampaikan usulan atau saran program pembangunan infrastruktur untuk kemajuan
-                        Kabupaten Katingan.</p>
-                </div>
-                <div class="col-lg-4 text-lg-end" data-aos="fade-left">
-                    <a href="{{ route('public.kontak') }}" class="btn btn-light btn-lg">
-                        <i class="bi bi-chat-dots me-2"></i>Sampaikan Usulan
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection
 
 @push('styles')

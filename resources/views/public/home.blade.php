@@ -7,6 +7,42 @@
 
     @push('styles')
         <style>
+            /* Full Screen Hero - No Space at Top */
+            .hero-section {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+                min-height: 100vh !important;
+                height: 100vh;
+            }
+
+            /* Make carousel full height */
+            #heroCarousel,
+            .carousel-inner,
+            .carousel-item {
+                height: 100vh !important;
+                min-height: 100vh !important;
+            }
+
+            .hero-bg-image {
+                height: 100vh !important;
+            }
+
+            /* Sections after hero need proper spacing */
+            .hero-section + section,
+            .hero-section + .container,
+            .hero-section ~ section:first-of-type {
+                margin-top: 0 !important;
+                padding-top: 4rem !important;
+            }
+
+            @media (max-width: 768px) {
+                .hero-section + section,
+                .hero-section + .container,
+                .hero-section ~ section:first-of-type {
+                    padding-top: 3rem !important;
+                }
+            }
+
             /* YouTube Autoplay Enhancement */
             .hero-video-container iframe,
             .video-container iframe {
@@ -39,24 +75,73 @@
                 }
             }
 
-            /* Text readability enhancements */
+            /* Text readability enhancements - Modern & Clean */
             .hero-content {
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             }
 
             .hero-content h1 {
-                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
                 font-weight: 700;
+                letter-spacing: -0.5px;
+                text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+                line-height: 1.2;
             }
 
             .hero-content p {
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
                 font-weight: 400;
+                text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+                line-height: 1.6;
+                letter-spacing: 0.3px;
+            }
+
+            /* Modern Typography Enhancements */
+            .display-4 {
+                font-weight: 700 !important;
+                letter-spacing: -1px;
+            }
+
+            .lead {
+                font-weight: 400 !important;
+                font-size: 1.15rem !important;
+                opacity: 0.95;
+            }
+
+            /* Button Modern Style */
+            .hero-content .btn {
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                text-shadow: none;
+                backdrop-filter: blur(10px);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .hero-content .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             }
 
             /* Enhanced overlay for better contrast */
             .hero-overlay {
-                background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%);
+                background: linear-gradient(135deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.65) 100%) !important;
+                backdrop-filter: brightness(0.7);
+                -webkit-backdrop-filter: brightness(0.7);
+            }
+
+            /* Additional darkening for carousel items */
+            .carousel-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+
+            .hero-content {
+                position: relative;
+                z-index: 2;
             }
         </style>
     @endpush

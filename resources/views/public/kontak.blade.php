@@ -17,8 +17,8 @@
 @section('content')
 
     <!-- Hero Section -->
-    <section class="py-4 py-md-5 text-white"
-        style="background: linear-gradient(135deg, var(--secondary-color) 0%, #001f5c 100%);">
+    <section class="py-5 text-white"
+        style="background: linear-gradient(135deg, var(--secondary-color) 0%, #001f5c 100%); margin-top: 0; padding-top: 120px !important;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8" data-aos="fade-right">

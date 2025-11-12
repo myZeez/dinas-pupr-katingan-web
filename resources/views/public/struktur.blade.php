@@ -3,9 +3,60 @@
 @section('title', 'Struktur Organisasi')
 @section('description', 'Struktur Organisasi Dinas PUPR Kabupaten Katingan - Kepemimpinan dan Staff')
 
+@push('styles')
+<style>
+    /* Mobile Floating Header */
+    @media (max-width: 991px) {
+        .hero-section-mobile {
+            position: relative;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #001f5c 100%) !important;
+            border-radius: 0 0 30px 30px;
+            margin: 0 !important;
+            padding: 100px 20px 25px 20px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .hero-section-mobile h1 {
+            font-size: 1.75rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+
+        .hero-section-mobile .lead {
+            font-size: 0.9rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .hero-section-mobile .badge {
+            font-size: 0.75rem !important;
+            padding: 0.4rem 0.8rem !important;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+
+    /* Desktop - Keep original */
+    @media (min-width: 992px) {
+        .hero-section-desktop {
+            margin-top: 0;
+            padding-top: 120px !important;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
 <!-- Hero Section -->
-<section class="py-4 text-white" style="background: linear-gradient(135deg, var(--secondary-color) 0%, #001f5c 100%);">
+<section class="py-5 text-white hero-section-desktop hero-section-mobile" style="background: linear-gradient(135deg, var(--secondary-color) 0%, #001f5c 100%); margin-top: 0; padding-top: 120px !important;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8" data-aos="fade-right">
@@ -20,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4" data-aos="fade-left">
+            <div class="col-lg-4 d-none d-lg-block" data-aos="fade-left">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('public.home') }}" class="text-white-50">Beranda</a></li>

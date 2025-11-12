@@ -1,9 +1,14 @@
-{{-- Global Loading Animation Component --}}
+{{-- Global Loading Animation Component - Pure CSS --}}
 <div id="globalLoadingOverlay" class="loading-overlay" style="display: none;">
     <div class="loading-container">
         <div class="loading-content">
             <div class="loading-icon">
-                <img src="{{ asset('Icon/loading.gif') }}" alt="Loading..." style="width: 80px; height: 80px;">
+                {{-- Pure CSS Loading Spinner --}}
+                <div class="css-spinner">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                </div>
             </div>
             <div class="loading-text">
                 <h5 id="loadingTitle">Memproses...</h5>
@@ -19,6 +24,54 @@
 </div>
 
 <style>
+/* ========== PURE CSS LOADING SPINNER ========== */
+.css-spinner {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.spinner-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.spinner-ring:nth-child(1) {
+    border-top-color: #5b72ee;
+    animation-delay: 0s;
+}
+
+.spinner-ring:nth-child(2) {
+    border-right-color: #00d4aa;
+    animation-delay: -0.5s;
+}
+
+.spinner-ring:nth-child(3) {
+    border-bottom-color: #f4b400;
+    animation-delay: -1s;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: rotate(180deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 1;
+    }
+}
+
+/* ========== LOADING OVERLAY ========== */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -73,11 +126,11 @@
 }
 
 @keyframes slideIn {
-    from { 
+    from {
         opacity: 0;
         transform: translateY(-30px) scale(0.95);
     }
-    to { 
+    to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
@@ -124,54 +177,54 @@ class GlobalLoading {
     init() {
         // Auto-handle forms
         this.setupFormHandlers();
-        
+
         // Auto-handle delete confirmations
         this.setupDeleteHandlers();
-        
+
         // Auto-handle AJAX requests
         this.setupAjaxHandlers();
     }
 
     show(title = 'Memproses...', message = 'Mohon tunggu sebentar') {
         if (this.isVisible) return;
-        
+
         this.titleElement.textContent = title;
         this.messageElement.textContent = message;
         this.overlay.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         this.isVisible = true;
-        
+
         console.log('Loading shown:', { title, message });
     }
 
     hide() {
         if (!this.isVisible) return;
-        
+
         this.overlay.style.display = 'none';
         document.body.style.overflow = '';
         this.isVisible = false;
-        
+
         console.log('Loading hidden');
     }
 
     setupFormHandlers() {
-        // Handle all forms with specific classes or data attributes  
+        // Handle all forms with specific classes or data attributes
         document.addEventListener('submit', (e) => {
             const form = e.target;
-            
+
             // Skip if form has data-no-loading attribute
             if (form.hasAttribute('data-no-loading')) return;
-            
+
             // Skip delete-form during confirmation phase
             if (form.classList.contains('delete-form') && !form.dataset.deleteConfirmed) return;
-            
+
             // Determine loading message based on form action
             let title = 'Memproses...';
             let message = 'Mohon tunggu sebentar';
-            
+
             const action = form.action.toLowerCase();
             const method = (form.method || 'get').toLowerCase();
-            
+
             if (method === 'post' || form.querySelector('input[name="_method"][value="PUT"]')) {
                 if (action.includes('store') || action.includes('create')) {
                     title = 'Menyimpan Data...';
@@ -187,14 +240,14 @@ class GlobalLoading {
                 title = 'Menghapus Data...';
                 message = 'Sedang menghapus item yang dipilih';
             }
-            
+
             // Add loading state to submit button
             const submitBtn = form.querySelector('button[type="submit"]');
             if (submitBtn && !submitBtn.disabled) {
                 submitBtn.classList.add('btn-loading');
                 submitBtn.disabled = true;
             }
-            
+
             this.show(title, message);
         });
     }
@@ -219,30 +272,30 @@ class GlobalLoading {
             $(document).ajaxStart(() => {
                 this.show('Memuat Data...', 'Sedang mengambil informasi');
             });
-            
+
             $(document).ajaxStop(() => {
                 setTimeout(() => this.hide(), 500);
             });
-            
+
             $(document).ajaxError(() => {
                 this.hide();
             });
         }
-        
+
         // Fetch API interceptor
         if (window.fetch) {
             const originalFetch = window.fetch;
             window.fetch = async (...args) => {
                 const [url, options = {}] = args;
-                
+
                 // Skip if request has no-loading header
                 if (options.headers && options.headers['X-No-Loading']) {
                     return originalFetch(...args);
                 }
-                
+
                 let title = 'Memuat Data...';
                 let message = 'Sedang mengambil informasi';
-                
+
                 if (options.method) {
                     const method = options.method.toUpperCase();
                     if (method === 'POST') {
@@ -256,9 +309,9 @@ class GlobalLoading {
                         message = 'Sedang menghapus data';
                     }
                 }
-                
+
                 this.show(title, message);
-                
+
                 try {
                     const response = await originalFetch(...args);
                     setTimeout(() => this.hide(), 500);
@@ -275,23 +328,23 @@ class GlobalLoading {
     showSave() {
         this.show('Menyimpan Data...', 'Sedang menyimpan perubahan');
     }
-    
+
     showUpdate() {
         this.show('Memperbarui Data...', 'Sedang memperbarui informasi');
     }
-    
+
     showDelete() {
         this.show('Menghapus Data...', 'Sedang menghapus item yang dipilih');
     }
-    
+
     showUpload() {
         this.show('Mengunggah File...', 'Sedang memproses file yang dipilih');
     }
-    
+
     showExport() {
         this.show('Mengekspor Data...', 'Sedang menyiapkan file ekspor');
     }
-    
+
     showImport() {
         this.show('Mengimpor Data...', 'Sedang memproses file import');
     }

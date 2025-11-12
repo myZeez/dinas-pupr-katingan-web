@@ -6,7 +6,7 @@
 
 @section('content')
 <!-- Stats Cards -->
-<div class="row g-3 mb-4 fade-in-up">
+<div class="row g-3 mb-5 fade-in-up">
     <div class="col-xl-3 col-lg-6 col-md-6">
         <div class="card shadow-sm h-100">
             <div class="card-body">
@@ -97,7 +97,7 @@
 </div>
 
 <!-- Second Row Stats -->
-<div class="row g-3 mb-4 fade-in-up">
+<div class="row g-3 mb-5 fade-in-up">
     <div class="col-xl-3 col-lg-6 col-md-6">
         <div class="card shadow-sm h-100">
             <div class="card-body">
@@ -177,7 +177,7 @@
 
 <!-- Admin Management Section (Super Admin Only) -->
 @if(auth()->user()->isSuperAdmin() && $adminStats)
-<div class="row g-3 mb-4 fade-in-up">
+<div class="row g-3 mb-5 fade-in-up">
     <div class="col-12">
         <div class="card shadow-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
             <div class="card-body">
@@ -195,7 +195,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="row g-2">
                     <div class="col-lg-3 col-md-6">
                         <div class="bg-white bg-opacity-10 rounded-3 p-2 text-center">
@@ -277,7 +277,7 @@
                         </div>
                         <span class="fw-medium">Tambah Program</span>
                     </a>
-                    
+
                     @if(auth()->user()->isSuperAdmin() && $totalSoftDeleted > 0)
                     <a href="{{ route('admin.soft-deleted.index') }}" class="btn btn-outline-danger d-flex align-items-center text-start">
                         <div class="icon-circle icon-danger me-3">
@@ -292,7 +292,7 @@
                 </div>
             </div>
         </div>
-        
+
         @if(auth()->user()->isSuperAdmin() && $totalSoftDeleted > 0)
         <!-- Soft Deleted Stats Card -->
         <div class="card shadow-sm mt-4">
@@ -308,24 +308,193 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row g-3">
+                <div class="soft-deleted-grid">
                     @foreach($softDeletedStats as $type => $count)
                         @if($count > 0)
-                        <div class="col-6">
-                            <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-lg">
-                                <div>
-                                    <p class="mb-0 text-muted small">{{ ucfirst(str_replace('_', ' ', $type)) }}</p>
-                                    <h6 class="mb-0 fw-bold">{{ $count }}</h6>
+                        <div class="soft-deleted-item">
+                            <div class="soft-deleted-content">
+                                <div class="soft-deleted-info">
+                                    <p class="soft-deleted-label">{{ ucfirst(str_replace('_', ' ', $type)) }}</p>
+                                    <h6 class="soft-deleted-count">{{ $count }}</h6>
                                 </div>
-                                <div class="text-danger">
-                                    <i class="bi bi-{{ $type === 'berita' ? 'newspaper' : ($type === 'program' ? 'clipboard-check' : ($type === 'galeri' ? 'images' : 'file-text')) }}"></i>
+                                <div class="soft-deleted-icon">
+                                    <i class="bi bi-{{ $type === 'berita' ? 'newspaper' : ($type === 'program' ? 'clipboard-check' : ($type === 'galeri' ? 'images' : ($type === 'pengaduan' ? 'chat-square-text' : ($type === 'ulasan' ? 'star' : ($type === 'struktur' ? 'diagram-3' : 'file-text'))))) }}"></i>
                                 </div>
                             </div>
                         </div>
                         @endif
                     @endforeach
                 </div>
-                <div class="mt-3">
+
+                <style>
+                    /* Pure CSS Grid Layout - No Bootstrap */
+                    .soft-deleted-grid {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        gap: 24px;
+                        margin: 24px 0;
+                        padding: 0;
+                    }
+
+                    .soft-deleted-item {
+                        background: #f8f9fa;
+                        border-radius: 12px;
+                        transition: all 0.3s ease;
+                        overflow: hidden;
+                        margin: 0;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .soft-deleted-item:hover {
+                        transform: translateY(-4px);
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                        background: #fff;
+                    }
+
+                    .soft-deleted-content {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 24px 20px;
+                        margin: 0;
+                    }
+
+                    .soft-deleted-info {
+                        flex: 1;
+                        margin-right: 16px;
+                        padding: 0;
+                    }
+
+                    .soft-deleted-label {
+                        margin: 0 0 10px 0;
+                        padding: 0;
+                        color: #6c757d;
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 1.4;
+                    }
+
+                    .soft-deleted-count {
+                        margin: 0;
+                        padding: 0;
+                        color: #212529;
+                        font-size: 28px;
+                        font-weight: 700;
+                        line-height: 1.2;
+                    }
+
+                    .soft-deleted-icon {
+                        color: #dc3545;
+                        font-size: 36px;
+                        margin: 0;
+                        padding: 8px;
+                        opacity: 0.8;
+                        transition: all 0.3s ease;
+                        flex-shrink: 0;
+                    }
+
+                    .soft-deleted-item:hover .soft-deleted-icon {
+                        opacity: 1;
+                        transform: scale(1.15);
+                    }
+
+                    /* Responsive Design */
+                    @media (max-width: 1400px) {
+                        .soft-deleted-grid {
+                            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                            gap: 20px;
+                            margin: 20px 0;
+                        }
+
+                        .soft-deleted-content {
+                            padding: 20px 18px;
+                        }
+                    }
+
+                    @media (max-width: 1200px) {
+                        .soft-deleted-grid {
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 20px;
+                            margin: 20px 0;
+                        }
+
+                        .soft-deleted-content {
+                            padding: 20px 16px;
+                        }
+
+                        .soft-deleted-count {
+                            font-size: 26px;
+                        }
+
+                        .soft-deleted-icon {
+                            font-size: 32px;
+                            padding: 6px;
+                        }
+                    }
+
+                    @media (max-width: 992px) {
+                        .soft-deleted-grid {
+                            grid-template-columns: repeat(2, 1fr);
+                            gap: 16px;
+                            margin: 16px 0;
+                        }
+
+                        .soft-deleted-content {
+                            padding: 18px 16px;
+                        }
+
+                        .soft-deleted-info {
+                            margin-right: 12px;
+                        }
+
+                        .soft-deleted-label {
+                            margin-bottom: 8px;
+                            font-size: 13px;
+                        }
+
+                        .soft-deleted-count {
+                            font-size: 24px;
+                        }
+
+                        .soft-deleted-icon {
+                            font-size: 28px;
+                            padding: 4px;
+                        }
+                    }
+
+                    @media (max-width: 576px) {
+                        .soft-deleted-grid {
+                            grid-template-columns: 1fr;
+                            gap: 12px;
+                            margin: 16px 0;
+                        }
+
+                        .soft-deleted-content {
+                            padding: 16px 14px;
+                        }
+
+                        .soft-deleted-info {
+                            margin-right: 10px;
+                        }
+
+                        .soft-deleted-label {
+                            font-size: 13px;
+                            margin-bottom: 6px;
+                        }
+
+                        .soft-deleted-count {
+                            font-size: 22px;
+                        }
+
+                        .soft-deleted-icon {
+                            font-size: 26px;
+                            padding: 4px;
+                        }
+                    }
+                </style>
+
+                <div class="mt-4">
                     <a href="{{ route('admin.soft-deleted.index') }}" class="btn btn-outline-danger btn-sm">
                         <i class="bi bi-eye me-2"></i>Kelola Data Terhapus
                     </a>
@@ -347,10 +516,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Chart with real data from database
     const chartElement = document.getElementById('monthlyChart');
-    
+
     if (chartElement) {
         const ctx = chartElement.getContext('2d');
-        
+
         try {
             const monthlyChart = new Chart(ctx, {
                 type: 'line',

@@ -1,8 +1,253 @@
-{{-- Universal GIF Notifications Component --}}
-{{-- Component notifikasi dengan icon GIF untuk seluruh halaman admin --}}
+{{-- Universal CSS Notifications Component --}}
+{{-- Component notifikasi dengan Pure CSS Icons untuk seluruh halaman --}}
 
 <style>
-/* GIF Notification Styles */
+/* ========== PURE CSS ICONS ========== */
+.css-icon {
+    width: 32px;
+    height: 32px;
+    position: relative;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+/* Success Checkmark */
+.css-icon.success {
+    border: 3px solid #28a745;
+    border-radius: 50%;
+    animation: successPop 0.5s ease-out;
+}
+
+.css-icon.success::after {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 4px;
+    width: 7px;
+    height: 14px;
+    border: solid #28a745;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    animation: checkmarkDraw 0.4s 0.2s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes checkmarkDraw {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+    50% {
+        height: 14px;
+        width: 0;
+        opacity: 1;
+    }
+    100% {
+        height: 14px;
+        width: 7px;
+        opacity: 1;
+    }
+}
+
+/* Error X Mark */
+.css-icon.error,
+.css-icon.danger {
+    border: 3px solid #dc3545;
+    border-radius: 50%;
+    animation: errorShake 0.5s ease-out;
+}
+
+.css-icon.error::before,
+.css-icon.danger::before,
+.css-icon.error::after,
+.css-icon.danger::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 3px;
+    background: #dc3545;
+    animation: xmarkDraw 0.4s 0.2s ease-out forwards;
+    opacity: 0;
+}
+
+.css-icon.error::before,
+.css-icon.danger::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.css-icon.error::after,
+.css-icon.danger::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@keyframes errorShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes xmarkDraw {
+    0% {
+        width: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 16px;
+        opacity: 1;
+    }
+}
+
+/* Warning Exclamation */
+.css-icon.warning {
+    border: 3px solid #ffc107;
+    border-radius: 50%;
+    animation: warningBounce 0.5s ease-out;
+}
+
+.css-icon.warning::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 11px;
+    background: #ffc107;
+    border-radius: 3px;
+    animation: exclamationDraw 0.3s 0.2s ease-out forwards;
+    opacity: 0;
+}
+
+.css-icon.warning::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #ffc107;
+    border-radius: 50%;
+    animation: exclamationDraw 0.3s 0.3s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes warningBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes exclamationDraw {
+    0% {
+        transform: translateX(-50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Loading Spinner */
+.css-icon.loading {
+    border: 3px solid #e0e0e0;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    animation: loadingSpin 1s linear infinite;
+}
+
+@keyframes loadingSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Info Icon */
+.css-icon.info {
+    border: 3px solid #17a2b8;
+    border-radius: 50%;
+    animation: infoPulse 0.5s ease-out;
+}
+
+.css-icon.info::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #17a2b8;
+    border-radius: 50%;
+    animation: infoDraw 0.3s 0.2s ease-out forwards;
+    opacity: 0;
+}
+
+.css-icon.info::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 11px;
+    background: #17a2b8;
+    border-radius: 3px;
+    animation: infoDraw 0.3s 0.3s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes infoPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes infoDraw {
+    0% {
+        transform: translateX(-50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* ========== NOTIFICATION STYLES ========== */
 .gif-notification-container {
     position: fixed;
     top: 20px;
@@ -42,12 +287,8 @@
     border-left-color: #007bff;
 }
 
-.gif-notification .gif-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    margin-right: 12px;
-    flex-shrink: 0;
+.gif-notification.info {
+    border-left-color: #17a2b8;
 }
 
 .gif-notification .content {
@@ -78,6 +319,7 @@
     cursor: pointer;
     padding: 4px;
     line-height: 1;
+    transition: color 0.2s;
 }
 
 .gif-notification .close-btn:hover {
@@ -106,6 +348,10 @@
     background: linear-gradient(90deg, #ffc107, #e0a800);
 }
 
+.gif-notification.info .progress-bar {
+    background: linear-gradient(90deg, #17a2b8, #117a8b);
+}
+
 @keyframes slideInRight {
     from {
         transform: translateX(100%);
@@ -131,6 +377,15 @@
 .gif-notification.hide {
     animation: slideOutRight 0.3s ease-in forwards;
 }
+
+/* Responsive */
+@media (max-width: 576px) {
+    .gif-notification-container {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+}
 </style>
 
 <!-- Notification Container -->
@@ -150,7 +405,7 @@ class GifNotifications {
 
         const id = 'gif-notif-' + Date.now();
         const notification = this.createNotification(id, title, message, type);
-        
+
         this.container.appendChild(notification);
         this.notifications.set(id, notification);
 
@@ -170,11 +425,9 @@ class GifNotifications {
         notification.id = id;
         notification.className = `gif-notification ${type}`;
 
-        const iconPath = this.getIconPath(type);
-        
         notification.innerHTML = `
             <div class="d-flex align-items-start">
-                <img src="${iconPath}" alt="${type}" class="gif-icon">
+                <div class="css-icon ${type}"></div>
                 <div class="content">
                     <div class="title">${title}</div>
                     <div class="message">${message}</div>
@@ -196,19 +449,6 @@ class GifNotifications {
         return notification;
     }
 
-    getIconPath(type) {
-        const iconMap = {
-            'success': '/Icon/Succes.gif',
-            'error': '/Icon/Delete.gif',
-            'danger': '/Icon/Delete.gif',
-            'warning': '/Icon/loading.gif', // Gunakan loading untuk warning
-            'loading': '/Icon/loading.gif',
-            'info': '/Icon/Done.gif'
-        };
-        
-        return iconMap[type] || iconMap['info'];
-    }
-
     hide(id) {
         const notification = this.notifications.get(id);
         if (notification) {
@@ -219,7 +459,7 @@ class GifNotifications {
 
             // Add hide animation
             notification.classList.add('hide');
-            
+
             // Remove from DOM after animation
             setTimeout(() => {
                 if (notification.parentNode) {

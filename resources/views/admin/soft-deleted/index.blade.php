@@ -19,13 +19,13 @@
         </div>
 
         <!-- Statistics Cards -->
-        <div class="row mb-4">
+        <div class="stats-grid-container">
             @foreach ($stats as $key => $count)
-                <div class="col-md-2">
-                    <div class="card text-center h-100 border-0 shadow-sm">
-                        <div class="card-body py-2">
-                            <h6 class="card-title mb-1 fw-bold">{{ $count }}</h6>
-                            <p class="card-text small text-muted mb-0">
+                <div class="stats-grid-item">
+                    <div class="stats-card">
+                        <div class="stats-content">
+                            <h6 class="stats-count">{{ $count }}</h6>
+                            <p class="stats-label">
                                 {{ ucfirst(str_replace('_', ' ', $key)) }}
                             </p>
                         </div>
@@ -33,6 +33,350 @@
                 </div>
             @endforeach
         </div>
+
+        <style>
+            /* Statistics Cards Grid Layout - Pure CSS */
+            .stats-grid-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 20px;
+                margin-bottom: 32px;
+                padding: 0;
+            }
+
+            .stats-grid-item {
+                margin: 0;
+                padding: 0;
+            }
+
+            .stats-card {
+                background: #ffffff;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .stats-card:hover {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+                transform: translateY(-2px);
+            }
+
+            .stats-content {
+                padding: 24px 16px;
+                text-align: center;
+                margin: 0;
+            }
+
+            .stats-count {
+                font-size: 28px;
+                font-weight: 700;
+                color: #333;
+                margin: 0 0 8px 0;
+                padding: 0;
+                line-height: 1.2;
+            }
+
+            .stats-label {
+                font-size: 13px;
+                color: #6c757d;
+                margin: 0;
+                padding: 0;
+                line-height: 1.4;
+                text-transform: capitalize;
+            }
+
+            /* Responsive Breakpoints */
+            @media (max-width: 1400px) {
+                .stats-grid-container {
+                    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                    gap: 16px;
+                    margin-bottom: 28px;
+                }
+
+                .stats-content {
+                    padding: 20px 14px;
+                }
+
+                .stats-count {
+                    font-size: 24px;
+                }
+            }
+
+            @media (max-width: 1200px) {
+                .stats-grid-container {
+                    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                    gap: 14px;
+                    margin-bottom: 24px;
+                }
+
+                .stats-content {
+                    padding: 18px 12px;
+                }
+
+                .stats-count {
+                    font-size: 22px;
+                    margin: 0 0 6px 0;
+                }
+
+                .stats-label {
+                    font-size: 12px;
+                }
+            }
+
+            @media (max-width: 992px) {
+                .stats-grid-container {
+                    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                    gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                .stats-content {
+                    padding: 16px 10px;
+                }
+
+                .stats-count {
+                    font-size: 20px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .stats-grid-container {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                .stats-content {
+                    padding: 16px 12px;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .stats-grid-container {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 10px;
+                    margin-bottom: 16px;
+                }
+
+                .stats-content {
+                    padding: 14px 10px;
+                }
+
+                .stats-count {
+                    font-size: 18px;
+                }
+
+                .stats-label {
+                    font-size: 11px;
+                }
+            }
+
+            /* Additional Page Spacing - Pure CSS */
+            .container-fluid {
+                padding: 24px 28px;
+                margin: 0;
+            }
+
+            /* Header Section */
+            .container-fluid > div:first-child {
+                margin-bottom: 28px;
+                padding: 0;
+            }
+
+            .container-fluid h1 {
+                margin: 0 0 8px 0;
+                padding: 0;
+            }
+
+            .container-fluid p.text-muted {
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Card Container */
+            .card {
+                margin: 0 0 28px 0;
+                padding: 0;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+
+            .card-header {
+                padding: 16px 20px;
+                margin: 0;
+                background: #f8f9fa;
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            .card-body {
+                padding: 24px;
+                margin: 0;
+            }
+
+            /* Navigation Tabs */
+            .nav-tabs {
+                margin: 0;
+                padding: 0;
+                border-bottom: none;
+            }
+
+            .nav-item {
+                margin: 0 8px 0 0;
+                padding: 0;
+            }
+
+            .nav-link {
+                padding: 10px 16px;
+                margin: 0;
+                border-radius: 8px 8px 0 0;
+            }
+
+            /* Table Styling */
+            .table-responsive {
+                margin: 0 0 20px 0;
+                padding: 0;
+            }
+
+            .table {
+                margin: 0;
+            }
+
+            .table thead th {
+                padding: 14px 12px;
+                margin: 0;
+                background: #f8f9fa;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            .table tbody td {
+                padding: 14px 12px;
+                margin: 0;
+                vertical-align: middle;
+            }
+
+            /* Pagination Section */
+            .d-flex.justify-content-between {
+                margin: 20px 0 0 0;
+                padding: 16px 0 0 0;
+                border-top: 1px solid #dee2e6;
+            }
+
+            /* Button Groups */
+            .btn-group {
+                margin: 0;
+                padding: 0;
+            }
+
+            .btn-group .btn {
+                margin: 0 2px;
+                padding: 6px 12px;
+            }
+
+            /* Empty State */
+            .text-center.py-5 {
+                padding: 48px 24px !important;
+                margin: 0;
+            }
+
+            .text-center.py-5 i {
+                margin: 0 0 20px 0;
+            }
+
+            .text-center.py-5 h4 {
+                margin: 0 0 12px 0;
+                padding: 0;
+            }
+
+            .text-center.py-5 p {
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Modal Styling */
+            .modal-header {
+                padding: 20px 24px;
+                margin: 0;
+            }
+
+            .modal-body {
+                padding: 24px;
+                margin: 0;
+            }
+
+            .modal-footer {
+                padding: 16px 24px;
+                margin: 0;
+            }
+
+            /* Badges */
+            .badge {
+                padding: 6px 12px;
+                margin: 0 4px 0 0;
+                border-radius: 6px;
+            }
+
+            /* Responsive Adjustments */
+            @media (max-width: 992px) {
+                .container-fluid {
+                    padding: 20px 16px;
+                }
+
+                .card-body {
+                    padding: 20px 16px;
+                }
+
+                .table thead th,
+                .table tbody td {
+                    padding: 12px 10px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .container-fluid {
+                    padding: 16px 12px;
+                }
+
+                .card-header {
+                    padding: 14px 16px;
+                }
+
+                .card-body {
+                    padding: 16px;
+                }
+
+                .nav-item {
+                    margin: 0 4px 4px 0;
+                }
+
+                .nav-link {
+                    padding: 8px 12px;
+                    font-size: 14px;
+                }
+
+                .table thead th,
+                .table tbody td {
+                    padding: 10px 8px;
+                    font-size: 13px;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .container-fluid {
+                    padding: 12px 10px;
+                }
+
+                .card-body {
+                    padding: 14px 12px;
+                }
+
+                .modal-body {
+                    padding: 20px 16px;
+                }
+            }
+        </style>
 
         <!-- Filter Tabs -->
         <div class="card">
@@ -424,9 +768,49 @@
             max-width: 300px;
             width: 90%;
         ">
-            <img src="{{ asset('Icon/loading.gif') }}" alt="Loading" style="width: 64px; height: 64px; margin-bottom: 1rem;">
+            <div class="css-dots-loader" style="margin: 0 auto 1rem;">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
             <h5 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 600;">Memproses...</h5>
             <p style="margin: 0; color: #666; font-size: 14px;">${message}</p>
+            <style>
+                .css-dots-loader {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 8px;
+                    height: 64px;
+                }
+                .css-dots-loader .dot {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    background: #5b72ee;
+                    animation: dotPulse 1.4s infinite ease-in-out both;
+                }
+                .css-dots-loader .dot:nth-child(1) {
+                    animation-delay: -0.32s;
+                }
+                .css-dots-loader .dot:nth-child(2) {
+                    animation-delay: -0.16s;
+                    background: #00d4aa;
+                }
+                .css-dots-loader .dot:nth-child(3) {
+                    background: #f4b400;
+                }
+                @keyframes dotPulse {
+                    0%, 80%, 100% {
+                        transform: scale(0.6);
+                        opacity: 0.5;
+                    }
+                    40% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+            </style>
         </div>
     `;
 

@@ -57,9 +57,20 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="kategori" class="form-label">Kategori <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('kategori') is-invalid @enderror"
-                                    id="kategori" name="kategori" value="{{ old('kategori') }}" required
-                                    placeholder="Contoh: Dokumen, Laporan, dll">
+                                <select class="form-select @error('kategori') is-invalid @enderror" id="kategori"
+                                    name="kategori" required>
+                                    <option value="">Pilih Kategori</option>
+                                    <option value="dokumen" {{ old('kategori') == 'dokumen' ? 'selected' : '' }}>Dokumen</option>
+                                    <option value="formulir" {{ old('kategori') == 'formulir' ? 'selected' : '' }}>Formulir</option>
+                                    <option value="peraturan" {{ old('kategori') == 'peraturan' ? 'selected' : '' }}>Peraturan</option>
+                                    <option value="panduan" {{ old('kategori') == 'panduan' ? 'selected' : '' }}>Panduan</option>
+                                    <option value="infrastruktur" {{ old('kategori') == 'infrastruktur' ? 'selected' : '' }}>Infrastruktur</option>
+                                    <option value="perencanaan" {{ old('kategori') == 'perencanaan' ? 'selected' : '' }}>Perencanaan</option>
+                                    <option value="pembangunan" {{ old('kategori') == 'pembangunan' ? 'selected' : '' }}>Pembangunan</option>
+                                    <option value="pemeliharaan" {{ old('kategori') == 'pemeliharaan' ? 'selected' : '' }}>Pemeliharaan</option>
+                                    <option value="monitoring" {{ old('kategori') == 'monitoring' ? 'selected' : '' }}>Monitoring</option>
+                                    <option value="lainnya" {{ old('kategori') == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                </select>
                                 @error('kategori')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

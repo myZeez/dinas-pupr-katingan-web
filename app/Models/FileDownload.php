@@ -79,6 +79,11 @@ class FileDownload extends Model
             'formulir' => 'Formulir',
             'peraturan' => 'Peraturan',
             'panduan' => 'Panduan',
+            'infrastruktur' => 'Infrastruktur',
+            'perencanaan' => 'Perencanaan',
+            'pembangunan' => 'Pembangunan',
+            'pemeliharaan' => 'Pemeliharaan',
+            'monitoring' => 'Monitoring',
             'lainnya' => 'Lainnya'
         ];
 
